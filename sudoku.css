@@ -1,9 +1,9 @@
 /* GENERAL RESET */ 
 * {
-  box-sizing: border-box; /* ensures padding and borders are included in element's total width and height */
-  margin: 0; /* removes default margins */
-  padding: 0; /* removes default padding */
-  font-family: Roboto, sans-serif; /* sets a consistent font family across all elements */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif;
 }
 
 /* BACKGROUND STYLING FOR THE ENTIRE PAGE */
@@ -14,20 +14,177 @@ body {
 
 /* STYLING FOR THE SUDOKU TABLE */
 table {
-  border: 2px solid #000000; /* black border around the entire table */
-  border-spacing: 0; /* removes spacing between table cells */
-  border-collapse: collapse; /* merges adjacent borders into one */
-  transition: all 0.5s; /* adds smooth transitions for table-related changes */
+  border: 2px solid #000000;
+  border-spacing: 0;
+  border-collapse: collapse;
+  transition: all 0.5s;
 }
 
 /* STYLING FOR UNORDERED LISTS */
 ul {
-  list-style-type: none; /* removes default bullet points */
+  list-style-type: none;
 }
 
 /* STYLING FOR TABLE CELLS */
 td {
-  border: 1px solid #000000; /* black border around each cell */
+  border: 1px solid #000000;
   text-align: center; /* centers text horizontally */
   vertical-align: middle; /* centers text vertically */
+}
+
+/* STYLING FOR INPUT ELEMENTS INSIDE TABLE CELLS */
+td input {
+  color: #000000;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  background-color: #ffffff; /* white background */
+  outline: none;
+  text-transform: uppercase;
+  transition: all 0.5s;
+}
+
+/* STYLING FOR DISABLED INPUT ELEMENTS */
+input:disabled { 
+  background-color: #d1a7f6; /* light purple background to indicate disabled state */
+}
+
+/* ADDS THICKER BOTTOM BORDER EVERY 3 ROWS */
+tr:nth-child(3n) {
+  border-bottom: 4px solid #000000;
+}
+
+/* ADDS THICKER TOP BORDER EVERY 3 ROWS STARTING WITH THE FIRST */
+tr:nth-child(3n + 1) {
+  border-top: 4px solid #000000;
+}
+
+/* ADDS THICKER RIGHT BORDER EVERY 3 COLUMNS */
+td:nth-child(3n) {
+  border-right: 4px solid #000000;
+}
+
+/* ADDS THICKER LEFT BORDER EVERY 3 COLUMNS STARTING WITH THE FIRST */
+td:nth-child(3n + 1) {
+  border-left: 4px solid #000000;
+}
+
+/* HIGHLIGHTS FOR CORRECT INPUT CELLS */
+.right-cell { 
+  box-shadow: inset 0px 0px 20px 3px rgb(35, 212, 103); /*green glow inside the cell */
+}
+
+/* HIGHLIGHTS FOR INCORRECT INPUT CELLS */
+.wrong-cell {
+  box-shadow: inset 0px 0px 20px 3px rgb(230, 7, 7); /* red glow inside the cell */
+}
+
+/* HIGHLIGHTS FOR WARNING CELLS */
+.warning-cell {
+  box-shadow: inset 0px 0px 20px 3px goldenrod; /* yellow glow inside the cell */
+}
+
+/* ===== MATERIAL DESIGN ===== */
+/* STYLING FOR THE TOP BAR */
+.app-bar {
+  background: #6f0ae3; /* purple background for the app bar */
+  width: 100%;
+  position: fixed;
+  height: 64px;
+  color: #fff; /* white text color */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.14);
+  z-index: 5;
+  top: 0;
+}
+
+/* STYLING FOR BUTTONS WITHIN THE BAR */
+.bar-button {
+  position: relative;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  vertical-align: middle;
+  padding: 0 22px;
+  transition: all 0.5s;
+}
+
+/* STYLING FOR TEXT OR ICONS INSIDE BAR BUTTONS */
+.bar-button span {
+  line-height: 64px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* STYLING FOR THE HANBURGER MENU BUTTON */
+.hamburger-button {
+  float: left;
+  left: 4px;
+}
+
+/* FONT STYLING FOR TEXT IN THE BAR */
+.bar-font {
+  font-size: 18px;
+  line-height: 64px;
+}
+
+/* STYLING FOR THE TITLE TEXT IN THE BAR */
+.title {
+  position: relative;
+  float: left;
+  left: 18px;
+}
+
+/* STYLING FOR THE "MORE" BUTTON IN THE BAR */
+.more-button {
+  float: right;
+}
+
+/* STYLING FOR THE ENTIRE HAMBURGER MENU OVERLAY */
+.hamburger-menu {
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 25;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  opacity: 0;
+  transition: 0.1s all;
+}
+
+/* STYLING FOR THE NAVIGATION MENU */
+.nav-menu {
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+  background: #fff;
+  color: #212121;
+  position: fixed;
+  left: -256px;
+  top: 0;
+  bottom: 0;
+  width: 256px;
+  z-index: 26;
+  font-size: 15px;
+  box-shadow: 16px 0 24px rgba(0, 0, 0, 0.14);
+  transition: all 0.3s;
+}
+
+/* STYLING FOR THE BLANK SPACE TO THE RIGHT OF THE NAVIGATION MENU */
+.nav-menu-blank {
+  position: relative;
+  left: 256px;
+  width: 100%;
+  height: 100%;
+}
+
+/* HEADER SECTION OF THE NAVIGATION MENU */
+.nav-head {
+  height: 172px;
+  background: #6f0ae3;
+  position: relative;
 }
