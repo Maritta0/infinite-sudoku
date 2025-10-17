@@ -1,0 +1,13 @@
+/* GENERAL RESET */ 
+* {
+  box-sizing: border-box; /* ensures padding and borders are included in element's total width and height */
+  margin: 0; /* removes default margins */
+  padding: 0; /* removes default padding */
+  font-family: Roboto, sans-serif; /* sets a consistent font family across all elements */
+}
+
+/* BACKGROUND STYLING FOR THE ENTIRE PAGE */
+html,
+body {
+  background-color: rgba(235, 235, 240); /* sets a light grey background */
+}
