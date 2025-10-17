@@ -195,3 +195,146 @@ function nextStep(level, possibleNumber, rows, solution, startFromZero) {
   }
   return -1;
 }
+
+// generate possible numbers sequence that fit in the current row 
+function generatePossibleRows(possibleNumber) {
+  var result = [];
+  function step(level, PossibleRow) {
+    if (level == 9) {
+      result.push(PossibleRow);
+      return;
+    }
+    for (var i in possibleNumber[level]) {
+      if (PossibleRow.includes(possibleNumber[level][i])) {
+        continue;
+      }
+      step(level + 1, PossibleRow + possibleNumber[level][i]);
+    }
+  }
+  step(0, "");
+  return result;
+}
+
+// empty cell from grid depends on the difficulty to make the puzzle 
+function makeItPuzzle(grid, difficulty) {
+  // so the puzzle is shown as solved grid 
+  if (!(difficulty < 5 && difficulty > -1)) {
+    difficulty = 13;
+  }
+  ver remainedValues = 81;
+  var puzzle = grid.slice(0);
+  // function to remove value from a cell and its symmetry then return remained values 
+  function clearValue(grid, x, y, remainedValues) {
+    function getSymmetry(x, y) {
+      // Symmetry 
+      var symX = 8 - x;
+      var symY = 8 - y;
+      return [sumX, symY];
+    }
+    var sym = getSymmetry(x, y);
+    if (grid[y][x] != 0) {
+      grid[y] = replaceCharAt(grid[y], x, "0");
+      remainedValues--;
+      if (x != sym[0] && y != sym[1]) {
+        grid[sym[1]] = replaceCharAt(grid[sym[1]], sym[0], "0");
+        remainedValues--;
+      }
+    }
+    return remainedValues;
+  }
+  // remove value from a cell and its symmetry to reach the expected empty cells amount 
+  while (remainedValues > difficulty * 5 + 20) {
+    var x = Math.floor(Math.random() * 9);
+    var y = Math.floor(Math.random() * 9);
+    remainedValues = clearValue(puzzle, x, y, remainedValues);
+  }
+  return puzzle;
+}
+
+// view grid in html page 
+function ViewPuzzle(grid) {
+  for (var i = 0; i < grid.length; i++) {
+    for (var j = 0; j < grid[i].length; j++) {
+      var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
+      addClassToCell(table.rows[i].cells[j].getElementsByTagName("input")[0];
+      if (grid[i][j] == "0") {
+        input.disabled = false;
+        input.value = "";
+      } else {
+        input.disabled = true;
+        inpute.value = grid[i][j];
+        remaining[grid[i][j] - 1]--;
+      }
+    }
+  }
+}
+
+// read current grid 
+function readInput() {
+  var result = [];
+  for (var i = 0; i < 9; i++) {
+    result.push("");
+    for (var j = 0; j < 9; j++) {
+      var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
+      if (input.value == "" || input.value.length > 1 || input.value == "0") {
+        input.value = "";
+        result[i] += "0";
+      } else {
+        result[i] += input.value;
+      }
+    }
+  }
+  return result;
+}
+
+// check value if it's correct or wrong 
+// return: 
+// 0 for value can't be changed 
+// 1 for correct value 
+// 2 for value that hasn't any conflict with other values 
+// 3 for value that conflicts with value in its row, column, or block 
+// 4 for incorrect input 
+function checkValue(value, row, column, block, defaultValue, currectValue) {
+  if (value === "" || value === "0") { 
+    return 0;
+  }
+  if (!(value > "0" && value < ":")) {
+    return 4;
+  }
+  if (value === defaultValue) {
+    return 0;
+  }
+  if (row.indexOf(value) != row.lastIndexOf(value) || column.indexOf(value) != column.lastIndexOf(value) || block.indexOf(value) != block.lastIndexOf(value)) {
+    return 3;
+  }
+  if (value !== currectValue) { 
+    return 2;
+  }
+  return 1;
+}
+
+// remove old class from input and add a new class to represent current cell's state 
+function addClassToCell(input, className) {
+  // remove old class from input 
+  input.classList.remove("right-cell");
+  input.classList.remove("worning-cell");
+  input.classList.remove("wrong-cell");
+  if (className != undefined) {
+    input.classList.add(className);
+  }
+}
+
+// update value of remaining numbers in html page 
+function updateRemainingTable() {
+  for (var i = 1; i < 10; i++) {
+    var item = document.getElementById("remain-" + i);
+    item.innerText = remaining[i - 1];
+    item.classList.remove("red");
+    item.classList.remove("gray");
+    if (remaining[i - 1] === 0) {
+      item.classList.add("gray");
+    } else if (remaining[i - 1] < 0 || remaining[i - 1] > 9) {
+      item.classList.add("red");
+    }
+  }
+}
