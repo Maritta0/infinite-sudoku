@@ -11,3 +11,23 @@ html,
 body {
   background-color: rgba(235, 235, 240); /* sets a light grey background */
 }
+
+/* STYLING FOR THE SUDOKU TABLE */
+table {
+  border: 2px solid #000000; /* black border around the entire table */
+  border-spacing: 0; /* removes spacing between table cells */
+  border-collapse: collapse; /* merges adjacent borders into one */
+  transition: all 0.5s; /* adds smooth transitions for table-related changes */
+}
+
+/* STYLING FOR UNORDERED LISTS */
+ul {
+  list-style-type: none; /* removes default bullet points */
+}
+
+/* STYLING FOR TABLE CELLS */
+td {
+  border: 1px solid #000000; /* black border around each cell */
+  text-align: center; /* centers text horizontally */
+  vertical-align: middle; /* centers text vertically */
+}
