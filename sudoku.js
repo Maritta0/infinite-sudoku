@@ -601,3 +601,144 @@ function checkButtonClick() {
     }
   }
 }
+
+// restart game 
+function restartButtonClick() {
+  if (gameOn) {
+    // reset remaining table 
+    for (var i in remaining) {
+      remaining[i] = 9;
+    }
+    // review puzzle 
+    ViewPuzzle(puzzle);
+    // update remaining numbers  
+    updateRemainingTable();
+    // restart the timer
+    // -1 is because it takes 1 sec to update the timer so it will start from 0 
+    timer = -1;
+  }
+}
+
+// surrender 
+function SurrenderButtonClick() {
+  if (gameOn) {
+    // reset remaining number table 
+    for (var i in remaining) {
+      remaining[i] = 9;
+    }
+    // review puzzle 
+    ViewPuzzle(solution);
+    // update remaining numbers table 
+    updateRemainingTable();
+    // stop the game 
+    gameOn = false;
+    pauseTimer = true;
+    clearInterval(intervalId);
+    // mark game as solved 
+    document.getElementById("game-difficulty").innerText = "Solved";
+  }
+}
+
+// hint 
+function hintButtonClick() {
+  if (gameOn) {
+    // get list of empty cells and list of wrong cells 
+    var empty_cells_list = [];
+    var wrong_cells_list = [];
+    for (var i = 0; i < 9; i++) {
+      for (var j = 0; j < 9; j++) {
+        var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
+        if (input.value == "" || input.value.length > 1 || input.value == "0") {
+          empty_cells_list.push([i, j]);
+        } else {
+          if (input.value !== solution[i][j]) {
+            wrong_cells_list.push([i, j]);
+          }
+        }
+      }
+    }
+    // check if gird is solved, if so stop the game 
+    if (empty_cells_list.length === 0 && wrong_cells_list.length === 0) {
+      gameOn = false;
+      pauseTimer = true;
+      document.getElementById("game-difficulty").innerText = "Solved";
+      clearInterval(intervalId);
+      alert("Congrats, You solved it.");
+    } else {
+        // add one minute to the stopwatch as a cost for given hint 
+        timer += 60;
+        // get random cell from empty or wrong list and put the currect value in it 
+        var input;
+        if ((Math.random() < 0.5 && empty_cells_list.length > 0) || wrong_cells_list.length === 0) {
+          var index = Math.floor(Math.random() * empty_cells_list.length);
+          input = table.rows[empty_cells_list[index][0]].cells[empty_cells_list[index][1]].getElementsByTagName("input")[0];
+          input.oldvalue = input.value;
+          input.value =solution[empty_cells_list[index][0]][empty_cells_list[index][1]];
+          remaining[input.value - 1]--;
+        } else {
+          var index = Math.floor(Math.random() * wrong_cells_list.length);
+          input = table.rows[wrong_cells_list[index][0]].cells[wrong_cells_list[index][1]].getElementsByTagName("input")[0];
+          input.oldvalue = input.value;
+          remaining[input.value - 1]++;
+          input.value = solution[wrong_cells_list[index][0]][wrong_cells_list[index][1]];
+          remaining[input.value - 1]--;
+        }
+        // update remaining numbers 
+        updateRemainingTable();
+      }
+      // make updated cell blinking 
+      var count = 0;
+      for (var i = 0; i < 6; i++) {
+        setTimeout(function() {
+          if (count % 2 == 0) {
+            input.classList.add("right-cell");
+          } else {
+            input.classList.remove("right-cell");
+          }
+          count++;
+        }, i * 750);
+      }
+  }
+}
+
+function showDialogClick(dialogId) {
+  // to hide navigation bar if it opened 
+  hideHamburgerClick();
+  var dialog = document.getElementById(dialogId);
+  var dialogBox = document.getElementById(dialogId + "-box");
+  dialogBox.focus();
+  dialog.style.opacity = 0;
+  dialogBox.style.marginTop = "-500px";
+  dialog.style.display = "block";
+  dialog.style.visibility = "visible";
+  // to view and move the dialog to the correct position after it set visible 
+  setTimeout(function() {dialog.style.opacity = 1; dialogBox.style.marginTop = "64px";}, 200);
+}
+
+// show more option menu 
+function moreOptionButtonClick() {
+  var moreOptionList = document.getElementById("more-option-list");
+  // timeout to avoid hide menu immediately in window event 
+  setTimeout(function() {
+    if (moreOptionList.style.visibility == "hidden") {
+      moreOptionList.style.visibility = "visible";
+      setTimeout(function() {moreOptionList.style.maxWidth = "160px"; moreOptionList.style.minWidth = "160px"; moreOptionList.style.maxHeight = "160px"; moreOptionList.style.opacity = "1";}, 50);
+    }
+  }, 50);
+}
+
+function hideDialogButtonClick(dialogId) {
+  var dialog = document.getElementById(dialogId);
+  var dialogBox = document.getElementById(dialogId + "-box");
+  dialog.style.opacity = 0;
+  dialogBox.style.marginTop = "-500px";
+  setTimeout(function() {dialog.style.visibility = "collapse";}, 500);
+}
+
+// hide hamburger menu when click outside 
+function hideHamburgerClick() {
+  var div = document.getElementById("hamburger-menu");
+  var menu = document.getElementById("nav-menu");
+  menu.style.left = "-256px";
+  setTimeout(function() {div.style.opacity = 0; div.style.visibility = "collapse";}, 200);
+}
