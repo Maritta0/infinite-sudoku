@@ -338,3 +338,87 @@ function updateRemainingTable() {
     }
   }
 }
+
+// start stopwatch timer 
+function startTimer() {
+  var timerDiv = document.getElementById("timer");
+  clearInterval(intervalId);
+  // update stopwatch value every one second 
+  pauseTimer = false;
+  intervalId = setInterval(function () {
+    if (!pauseTimer) {
+      timer++;
+      var min = Math.floor(timer / 60);
+      var sec = timer % 60;
+      timerDiv.innerText = (("" + min).length < 2 ? "0" + min : min ) + ":" + (("" + sec).length < 2 ? "0" + sec : sec);
+    }
+  }, 1000);
+}
+
+// solve sudoku function 
+// input: changeUI boolean true to allow function to change UI
+// output: 
+// 0 when everything goes right 
+// 1 when grid is already solved 
+// 2 when Invalid input 
+// 3 when no solution 
+function solveSudoku(changeUI) {
+  puzzle = readInput();
+  var columns = getColumns(puzzle);
+  var blocks = getBlocks(puzzle);
+  // check if there is any conflict 
+  var errors = 0;
+  var correct = 0;
+  for (var i = 0; i < puzzle.length; i++) {
+    for (var j = 0; j < puzzle[i].length; j++) {
+      var result = checkValue(puzzle[i][j], puzzle[i], columns[j], blocks[Math.floor(i / 3) * 3 + Math.floor(j / 3)], -1, -1);
+      correct = correct + (result === 2 ? 1 : 0);
+      errors = errors + (result > 2 ? 1 : 0);
+      addClassToCell(table.rows[i].cells[j].getElementsByTagName("input")[0], result > 2 ? "wrong-cell" : undefined);
+    }
+  }
+  // check if invalid input 
+  if (errors > 0) {
+    canSolved = false;
+    return 2;
+  }
+  canSolved = true;
+  isSolved = true;
+  // check if grid is already solved 
+  if (correct === 81) {
+    return 1;
+  }
+  // read the current time 
+  var time = Date.now();
+  // solve the grid 
+  solution = solveGrid(generatePossibleNumber(puzzle, columns, blocks), puzzle, true);
+  // show result 
+  // get time 
+  time = Date.now() - time;
+  if (changeUI) {
+    document.getElementById("timer").innerText = Math.floor(time / 1000) + "." + ("000" + (time % 1000)).slice(-3);
+  }
+  if (solution === undefined) {
+    isSolved = false;
+    canSolved = false;
+    return 3;
+  }
+  if (changeUI) {
+    remaining = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    updateRemainingTable();
+    ViewPuzzle(solution);
+  }
+  return 0;
+}
+
+// hide more option menu 
+function hideMoreOptionMenu() {
+  var moreOptionList = document.getElementById("more-option-list");
+  if (moreOptionList.style.visibility == "visible") {
+    moreOptionList.style.maxWidth = "40px";
+    moreOptionList.style.minWidth = "40px";
+    moreOptionList.style.maxHeight = "10px";
+    moreOptionList.style.opacity = "0";
+    setTimeout(function() {moreOptionList.style.visibility = "hidden";}, 175);
+  }
+}
