@@ -493,3 +493,53 @@ window.onclick = function (event) {
     hideMoreOptionMenu();
   }
 };
+
+// show hamburger menu 
+function HamburgerButtonClick() {
+  debugger
+  var div = document.getElementById("hamburger-menu");
+  var menu = document.getElementById("nav-menu");
+  div.style.display = "block";
+  div.style.visibility = "visible";
+  setTimeout(function() {div.style.opacity = 1; menu.style.left = 0;}, 50);
+}
+
+// start new game 
+function startGameButtonClick() {
+  var difficulties = document.getElementsByName("difficulty");
+  // difficulty: 
+  // 0 expert 
+  // 1 hard 
+  // 2 normal 
+  // 3 easy 
+  // 4 very easy 
+  // 5 solved 
+  // initial difficulty to 5 (solved) 
+  var difficulty = 5;
+  // get difficulty value 
+  for (var i = 0; i < difficulties.length; i++) {
+    if (difficulties[i].checked) {
+      newGame(4 - i);
+      difficulty = i;
+      break;
+    }
+  }
+  if (difficulty > 4) {
+    newGame(5);
+  }
+  hideDialogButtonClick("dialog");
+  gameId++;
+  document.getElementById("game-number").innerText = "game #" + gameId;
+  // hide solver buttons 
+  // show other buttons 
+  document.getElementById("moreoption-sec").style.display = "block";
+  document.getElementById("pause-btn").style.display = "block";
+  document.getElementById("check-btn").style.display = "block";
+  document.getElementById("isunique-btn").style.display = "none";
+  document.getElementById("solve-btn").style.display = "none";
+  // prerpare view for new game 
+  document.getElementById("timer-label").innerText = "Time";
+  document.getElementById("timer").innerText = "00:00";
+  document.getElementById("game-difficulty-label").innerText = "Game difficulty";
+  document.getElementById("game-difficulty").innerText = difficulty < difficulties.length ? difficulties[difficulty].value : "solved";
+}
