@@ -521,3 +521,22 @@ td:nth-child(3n + 1) {
   margin: 44px 0 0 0;
   padding: 8px;
 }
+
+/* MORE OPTIONS CONTAINER STYLING */
+.more-option-div {
+  position: static;
+  display: inline-block;
+  margin-right: 16px;
+}
+
+/* MORE OPTIONS LIST (DROPDOWN) STYLING */
+.more-option-list {
+  display: block;
+  position: absolute;
+  background-color: #fff;
+  overflow: hidden;
+  box-shadow: 0px 8px 10px 1px rgba(0, 0, 0, 0.14);
+  right: 18px;
+  z-index: 25;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+}
