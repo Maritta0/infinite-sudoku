@@ -251,3 +251,181 @@ td:nth-child(3n + 1) {
   float: left;
   padding: 32px 32px 16px 32px;
 }
+
+/* STYLING FOR THE STATUS SECTION OF THE GAME */
+.status {
+  margin-left: 32px;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+/* GAME NUMBER STYLING WITHIN THE STATUS SECTION */
+#game-number {
+  font-size: 12px;
+  color: gray;
+}
+
+/* STYLING FOR THE GAME STATUS LIST */
+.game-status {
+  margin: 0 0 0 22px;
+  height: 100%;
+}
+
+/* INDIVIDUAL LIST ITEM IN THE GAME STATUS SECTION */
+.game-status li {
+  margin: 18px 0 0 0;
+}
+
+/* VERTICAL ALIGNMENT CONTAINER FOR ITEMS IN THE STATUS SECTION */
+.vertical-adjust {
+  margin: 12px 0;
+}
+
+/* STYLING FOR SPAN ELEMENTS INSIDE THE VERTICAL ADJUST AND FOOTER */
+.vertical-adjust span,
+.footer a {
+  line-height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* OPTION BUTTON STYLING */
+.option-button {
+  display: block;
+  margin: 16px 8px 16px 30px;
+  width: 130px;
+  padding: 8px 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  box-shadow: 0 6px 10px 1px rgba(0, 0, 0, 0.14);
+  border-radius: 2px;
+  transition: all 0.5s;
+  text-align: left;
+}
+
+/* BUTTON CONTAINER STYLING FOR POSITIONING */
+.button {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* HOVER STATE FOR THE OPTION BUTTON */
+.option-button:hover {
+  background: #bf98eb;
+}
+
+/* ACTIVE STATE FOR THE OPTION BUTTON */
+.option-button:active {
+  background: #6f0ae3;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
+}
+
+/* STYLING FOR THE SPAN INSIDE THE OPTION BUTTON */
+.option-button span {
+  vertical-align: middle;
+  line-height: 24px;
+}
+
+/* RIPPLE EFFECT STYLING FOR INTERACTIVE ELEMENTS */
+.ripple {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  animation: ripple-effect 1.1s 1 cubic-bezier(0.42, 0, 0.58, 1);
+  opacity: 0;
+}
+
+/* KEYFRAMES FOR THE RIPPLE EFFECT ANIMATION */
+@keyframes ripple-effect {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(100);
+    opacity: 0;
+  }
+}
+
+/* TIMER DISPLAY STYLING */
+.timer {
+  color: #6f0ae3;
+  font-size: 32px;
+  padding: 4px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.14);
+  text-align: center;
+}
+
+/* LAYOUT FOR THE TABLE DISPLAYING REMAINING NUMBERS */
+.remain-table {
+  position: relative;
+  left: 0;
+  right: 0;
+  display: inline-block;
+  margin: auto;
+}
+
+/* STYLING FOR EACH COLUMN IN THE REMAIN TABLE */
+.remain-column {
+  float: left;
+  max-width: 64px;
+}
+
+/* INDIVIDUAL CELL STYLING WITHIN THE REMAIN TABLE */
+.remain-cell {
+  margin: 10px;
+  text-align: center;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+/* PADDING FOR THE CONTENTS INSIDE EACH CELL */
+.remain-cell div {
+  padding: 5px 12px;
+}
+
+/* HEADER STYLING FOR EACH CELL, INDICATING THE NUMBER VALUE */
+.remain-cell-header {
+  background-color: #6f0ae3;
+  color: white;
+  font-weight: bold;
+  border-bottom: solid 2px rgba(0, 0, 0, 0.2);
+}
+
+/* STYLING FOR CELLS THAT ARE WRONG */
+.red {
+  background: #ff6659;
+  color: #9a0007;
+}
+
+.gray {
+  background: #808080;
+  color: #404040;
+}
+
+/* FLOATING ELEMENT CONTAINER */
+.floating {
+  position: fixed;
+  bottom: 64px;
+  right: 64px;
+  z-index: 20;
+}
+
+/* FLOATING BUTTON STYLING */
+.floating-btn {
+  position: fixed;
+  bottom: 48px;
+  right: 48px;
+  border-radius: 50%;
+  padding: 12px;
+  border: none;
+  background-color: #6f0ae3;
+  color: #fff;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14);
+  outline: none;
+  z-index: 21;
+}
