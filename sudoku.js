@@ -1,7 +1,3 @@
-/**
-Sudoku Game by Maritta Gostanian
-*/
-
 // GRID VARIABLE 
 var table;
 // GAME NUMBER 
@@ -422,3 +418,78 @@ function hideMoreOptionMenu() {
     setTimeout(function() {moreOptionList.style.visibility = "hidden";}, 175);
   }
 }
+
+// UI Comunication functions 
+// function that must run when document loaded 
+window.onload = function () {
+  // assigne table to its value 
+  table = document.getElementById("puzzle-grid");
+  // add ripple effect to all buttons in layout 
+  var rippleButtons = document.getElementsByClassName("button");
+  for (var i = 0; i < rippleButtons.length; i++) {
+    rippleButtons[i].onmousedown = function (e) {
+      // get ripple effect's position depend on mouse and button position 
+      var x = e.pageX - this.offsetLeft;
+      var y = e.pageY - this.offsetTop;
+      // add div that represents the ripple 
+      var rippleItem = document.createElement("div");
+      rippleItem.classList.add("ripple");
+      rippleItem.setAttribute("style", "left: " + x + "px; top: " + y + "px");
+      // if ripple item should have special color... get and apply it 
+      var rippleColor = this.getAttribute("ripple-color");
+      if (rippleColor) {
+        rippleItem.style.background = rippleColor;
+      }
+      this.appendChild(rippleItem);
+      // set timer to remove the dif after the effect ends 
+      setTimeout(function () {rippleItem.parentElement.removeChild(rippleItem);}, 1500);};
+  }
+  for (var i = 0; i < 9; i++) {
+    for (var j = 0; j < 9; j++) {
+      var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
+      // add function to remove color from cells and update remaining table when it get changed 
+      input.onchange = function () {
+        //remove color from cell 
+        addClassToCell(this);
+        // check if the new value entered is allowed 
+        function checkInput(input) {
+          if (input.value[0] < "1" || input.value[0] > "9") {
+            if (input.value != "?" && input.value != "؟") {
+              input.value = "";
+              alert("only numbers [1-9] and question mark '?' are allowed!!");
+              input.focus();
+            }
+          }
+        }
+        checkInput(this);
+        // compare old value and new value then update remaining table 
+        if (this.value > 0 && this.value < 10) {
+          remaining[this.value - 1]--;
+        }
+        if (this.oldvalue !== "") {
+          if (this.oldvalue > 0 && this.oldvalue < 10) {
+            remaining[this.oldvalue - 1]++;
+          }
+        }
+        //reset canSolved value when change any cell 
+        canSolved = true;
+        updateRemainingTable();};
+      //change cell 'old value' when it got focused to track numbers and changes on grid 
+      input.onfocus = function () {this.oldvalue = this.value;};
+    }
+  }
+};
+
+// function to hide dialog opened in window 
+window.onclick = function (event) {
+  var d1 = document.getElementById("dialog");
+  var d2 = document.getElementById("about-dialog");
+  var m1 = document.getElementById("more-option-list");
+  if (event.target == d1) {
+    hideDialogButtonClick("dialog");
+  } else if (event.target == d2) {
+    hideDialogButtonClick("about-dialog");
+  } else if (m1.style.visibility == "visible") {
+    hideMoreOptionMenu();
+  }
+};
