@@ -470,3 +470,54 @@ td:nth-child(3n + 1) {
   margin: 16px 0 4px 28px;
   color: gray;
 }
+
+/* RADIO OPTION LIST STYLING */
+.radio-option {
+  padding: 0 36px;
+  list-style-type: none;
+  position: relative;
+}
+
+/* RADIO INPUT STYLING */
+.radio-option input {
+  outline: none;
+  margin-right: 12px;
+}
+
+/* LABEL FOR THE RADIO OPTION */
+.radio-option label {
+  display: block;
+  height: 24px;
+  cursor: pointer;
+  padding: 1.25em 0;
+}
+
+/* DIALOG FOOTER STYLING */
+.dialog-footer {
+  border-top: solid 1px #808080;
+  margin-top: 24px;
+  text-align: right;
+  padding-right: 16px;
+}
+
+/* BUTTON STYLING IN THE DIALOG */
+.dialog-btn {
+  background: transparent;
+  border: none;
+  color: #003c8f;
+  font-size: 16px;
+  margin: 8px 0;
+  padding: 8px 16px;
+  outline: none;
+  min-width: 96px;
+  display: inline-block;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  color: white;
+  background-color: #6f0ae3;
+  margin: 44px 0 0 0;
+  padding: 8px;
+}
