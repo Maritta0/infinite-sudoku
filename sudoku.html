@@ -1,0 +1,393 @@
+<!-- link to the external CSS file for styling -->
+<link rel="stylesheet" href="sudoku.css">
+
+<!-- link to the external JavaScript file for interactivity -->
+<script src="sudoku.js"></script>
+
+<!-- link to Google Material Icons for adding icon fonts -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- ensures the page is responsive and adjusts layout based on the device's viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- navigation bar for the Sudoku game -->
+<nav class="app-bar">
+  <!-- hamburger menu button for toggling navigation options -->
+  <button onclick="HamburgerButtonClick();" class="button bar-button hamburger-button">
+    <span class="material-icons">menu</span>
+  </button>
+  <!-- title displayed in the navigation bar -->
+  <div class="bar-font title">Sudoku</div>
+  <!-- more options menu -->
+  <div id="moreoption-sec" class="more-option-div more-button">
+    <!-- open/close the menu -->
+    <button onclick="moreOptionButtonClick()" class="button bar-button">
+      <span class="material-icons">more_vert</span>
+    </button>
+    <!-- dropdown menu for additional options -->
+    <div id="more-option-list" style="visibility: hidden;max-height: 10px;max-width: 40px;min-width: 40px;" class="more-option-list">
+      <!-- button to get a hint -->
+      <button onclick="hintButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Hint</button>
+      <!-- button to restart the game -->
+      <button onclick="restartButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Restart</button>
+      <!-- button to surrender the current game -->
+      <button onclick="SurrenderButtonClick()" ripple-color="tomato" class="button nav-item vertical-adjust">Surrender</button>
+    </div>
+  </div>
+  <!-- button to pause the game -->
+  <button id="pause-btn" onclick="pauseGameButtonClick()" class="button bar-button more-button">
+    <span id="pause-icon" class="material-icons">pause</span>
+    <span id="pause-text">Pause</span>
+  </button>
+  <!-- button to check the current numbers entered -->
+  <button id="check-btn" onclick="checkButtonClick()" class="button bar-button more-button">
+    <span class="material-icons">done_all</span>
+    <span>Check</span>
+  </button>
+  <!-- button to check if the solution is unique (hidden by default) -->
+  <button id="isunique-btn" style="display: none;" onclick="isUniqueButtonClick();" class="button bar-button more-button">
+    <span class="material-icons">call_split</span>
+    <span>Is unique</span>
+  </button>
+  <!-- button to solve the puzzle -->
+  <button id="solve-btn" style="display: none;" onclick="solveButtonClick()" class="button bar-button more-button">
+    <span class="material-icons">border_color</span>
+    <span>Solve</span>
+  </button>
+</nav>
+
+<!-- container for the hamburger menu -->
+<div id="hamburger-menu" class="hamburger-menu">
+  <!-- navigation menu within the hamburger menu -->
+  <nav id="nav-menu" class="nav-menu">
+    <!-- header section of navigation menu -->
+    <div class="nav-head">
+      <!-- title displayed at the top of the navigation menu -->
+      <div class="nav-head-title">Sudoku</div>
+    </div>
+    <!-- list of navigation menu items -->
+    <ul class="nav-items">
+      <!-- button to start a new game -->
+      <button onclick="showDialogClick('dialog');" ripple-color="#003c8f" class="button nav-item vertical-adjust">
+        <div>
+          <!-- icon and label for the new game option -->
+          <span class="material-icons">add</span>
+          <span style="left:12px;">New game</span>
+        </div>
+      </button>
+    </ul>
+  </nav>
+</div>
+
+<!-- floating button for choosing a new game -->
+<div class="floating">
+  <!-- button to open the new game dialog -->
+  <button onclick="showDialogClick('dialog');" class="button floating-btn vertical-adjust">
+    <span class="material-icons">add</span>
+  </button>
+</div>
+
+<!-- dialog container for the new game options -->
+<div id="dialog" class="dialog">
+  <!-- content box for the dialog -->
+  <div id="dialog-box" class="dialog-content">
+    <!-- header section -->
+    <div class="dialog-header">New game</div>
+    <!-- body section -->
+    <div class="dialog-body">
+      <!-- instruction for the user -->
+      <p>Select game difficulty to get started.</p>
+      <!-- list of difficulty options as radio buttons -->
+      <ul>
+        <!-- option: very easy -->
+        <li class="radio-option">
+          <label for="very-easy">
+            <input id="very-easy" value="very easy" type="radio" name="difficulty"> Very easy
+          </label>
+        </li>
+        <!-- option: easy -->
+        <li class="radio-option">
+          <label for="easy">
+            <input id="easy" value="easy" type="radio" name="difficulty"> Easy
+          </label>
+        </li>
+        <!-- option: normal -->
+        <li class="radio-option">
+          <label for="normal">
+            <input id="normal" value="normal" type="radio" name="difficulty"> Normal
+          </label>
+        </li>
+        <!-- options: hard -->
+        <li class="radio-option">
+          <label for="hard">
+            <input id="hard" value="hard" type="radio" name="difficulty"> Hard
+          </label>
+        </li>
+        <!-- option: expert (labeled as "very hard") -->
+        <li class="radio-option">
+          <label for="very-hard">
+            <input id="very-hard" value="expert" type="radio" name="difficulty"> Expert
+          </label>
+        </li>
+      </ul>
+    </div>
+    <!-- footer section of the dialog -->
+    <div class="dialog-footer">
+      <!-- button to confirm and start the game -->
+      <button onclick="startGameButtonClick();" ripple-color="#003c8f" class="button dialog-btn vertical-adjust">OK</button>
+      <!-- button to cancel and close the dialog -->
+      <button onclick="hideDialogButtonClick('dialog');" ripple-color="#202020" class="button dialog-btn vertical-adjust">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- main container for the sudoku game -->
+<div class="body" id="sudoku">
+  <!-- card container for the game grid -->
+  <div class="card game">
+    <!-- table structure for the grid -->
+    <table id="puzzle-grid">
+      <!-- each <tr> represents a row in the grid -->
+      <tr>
+        <!-- each <td> represents a cell in the grid -->
+        <td>
+          <!-- input field for a cell, limited to 1 character -->
+          <input type="text" maxlength="1" onchange="checkInput(this)" disabled />
+        </td>
+        <!-- repeat for the rest of the cells in this row -->
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <!-- repeat the same structure for all rows -->
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+      </tr>
+    </table>
+  </div>
+  <!-- card containing game status and controls -->
+  <div class="card status">
+    <!-- display the current game number -->
+    <div id="game-number">game #0</div>
+    <!-- status list containing timer, difficulty, and remaining numbers -->
+    <ul class="game-status">
+      <!-- timer section -->
+      <li>
+        <div class="vertical-adjust">
+          <!-- icon for timer -->
+          <span class="material-icons">timer</span>
+          <!-- label for timer -->
+          <span id="timer-label">Time</span>
+        </div>
+        <!-- timer value display -->
+        <div id="timer" class="timer">00:00</div>
+      </li>
+      <!-- game level section -->
+      <li>
+        <div class="vertical-adjust">
+          <!-- icon for game level -->
+          <span class="material-icons">network_check</span>
+          <!-- label for game level -->
+          <span id="game-difficulty-label">Game difficulty</span>
+        </div>
+        <!-- level value, dynamically set -->
+        <div id="game-difficulty" class="timer">undefined</div>
+      </li>
+      <!-- remaining numbers section -->
+      <li>
+        <div class="vertical-adjust">
+          <!-- icon for remaining numbers -->
+          <span class="material-icons">grid_on</span>
+          <!-- label for remaining numbers -->
+          <span>Remaining numbers</span>
+        </div>
+        <div class="remain-table">
+          <!-- first column (1, 4, 7) -->
+          <div class="remain-column">
+            <div class="remain-cell">
+              <!-- header showing the number 1 -->
+              <div class="remain-cell-header">1</div>
+              <!-- remaining count for 1, dynamically updated -->
+              <div onchange="document.write('Hello');" id="remain-1" class="remain-cell-content">0</div>
+            </div>
+            <div class="remain-cell">
+              <!-- header showing the number 4 -->
+              <div class="remain-cell-header">4</div>
+              <!-- remaining count for 4, dynamically updated -->
+              <div id="remain-4" class="remain-cell-content">0</div>
+            </div>
+            <div class="remain-cell">
+              <!-- header showing the number 7 -->
+              <div class="remain-cell-header">7</div>
+              <!-- remaining count for 7, dynamically updated -->
+              <div id="remain-7" class="remain-cell-content">0</div>
+            </div>
+          </div>
+          <!-- second column (2, 5, 8) -->
+          <div class="remain-column">
+            <div class="remain-cell">
+              <!-- header showing the number 2 -->
+              <div class="remain-cell-header">2</div>
+              <!-- remaining count for 2, dynamically updated -->
+              <div id="remain-2" class="remain-cell-content">0</div>
+            </div>
+            <div class="remain-cell">
+              <!-- header showing the number 5 -->
+              <div class="remain-cell-header">5</div>
+              <!-- remaining count for 5, dynamically updated -->
+              <div id="remain-5" class="remain-cell-content">0</div>
+            </div>
+            <div class="remain-cell">
+              <!-- header showing the number 8 -->
+              <div class="remain-cell-header">8</div>
+              <!-- remaining count for 8, dynamically updated -->
+              <div id="remain-8" class="remain-cell-content">0</div>
+            </div>
+          </div>
+          <!-- third column (3, 6, 9) -->
+          <div class="remain-column">
+            <div class="remain-cell">
+              <!-- header showing the number 3 -->
+              <div class="remain-cell-header">3</div>
+              <!-- remaining count for 3, dynamically updated -->
+              <div id="remain-3" class="remain-cell-content">0</div>
+            </div>
+            <div class="remain-cell">
+              <!-- header showing the number 6 -->
+              <div class="remain-cell-header">6</div>
+              <!-- remaining count for 6, dynamically updated -->
+              <div id="remain-6" class="remain-cell-content">0</div>
+            </div>
+            <div class="remain-cell">
+              <!-- header showing the number 9 -->
+              <div class="remain-cell-header">9</div>
+              <!-- remaining count for 9, dynamically updated -->
+              <div id="remain-9" class="remain-cell-content">0</div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- control buttons -->
+    <!-- pause button -->
+    <button class="option-button">
+      <span class="material-icons">pause</span>
+      <!-- pause button label -->
+      <span>Pause</span>
+    </button>
+    <!-- check buttin -->
+    <button class="option-button">
+      <span class="material-icons">done_all</span>
+      <!-- check button label -->
+      <span>Check</span>
+    </button>
+    <!-- hint button -->
+    <button class="option-button">
+      <span class="material-icons">help</span>
+      <!-- hint button label -->
+      <span>Hint</span>
+    </button>
+    <!-- restart button -->
+    <button class="option-button">
+      <span class="material-icons">refresh</span>
+      <!-- restart button label -->
+      <span>Restart</span>
+    </button>
+    <!-- surrender button -->
+    <button class="option-button">
+      <span class="material-icons">flag</span>
+      <!-- surrender button label -->
+      <span>Surrender</span>
+    </button>
+  </div>
+</div>
