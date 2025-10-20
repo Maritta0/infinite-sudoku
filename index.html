@@ -1,145 +1,128 @@
-<!-- link to the external CSS file for styling -->
-<link rel="stylesheet" href="sudoku.css">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sudoku</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+  </head>
 
-<!-- link to the external JavaScript file for interactivity -->
-<script src="sudoku.js"></script>
-
-<!-- link to Google Material Icons for adding icon fonts -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-<!-- ensures the page is responsive and adjusts layout based on the device's viewport -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- navigation bar for the Sudoku game -->
-<nav class="app-bar">
-  <!-- hamburger menu button for toggling navigation options -->
-  <button onclick="HamburgerButtonClick();" class="button bar-button hamburger-button">
-    <span class="material-icons">menu</span>
-  </button>
-  <!-- title displayed in the navigation bar -->
-  <div class="bar-font title">Sudoku</div>
-  <!-- more options menu -->
-  <div id="moreoption-sec" class="more-option-div more-button">
-    <!-- open/close the menu -->
-    <button onclick="moreOptionButtonClick()" class="button bar-button">
-      <span class="material-icons">more_vert</span>
-    </button>
-    <!-- dropdown menu for additional options -->
-    <div id="more-option-list" style="visibility: hidden;max-height: 10px;max-width: 40px;min-width: 40px;" class="more-option-list">
-      <!-- button to get a hint -->
-      <button onclick="hintButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Hint</button>
-      <!-- button to restart the game -->
-      <button onclick="restartButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Restart</button>
-      <!-- button to surrender the current game -->
-      <button onclick="SurrenderButtonClick()" ripple-color="tomato" class="button nav-item vertical-adjust">Surrender</button>
-    </div>
-  </div>
-  <!-- button to pause the game -->
-  <button id="pause-btn" onclick="pauseGameButtonClick()" class="button bar-button more-button">
-    <span id="pause-icon" class="material-icons">pause</span>
-    <span id="pause-text">Pause</span>
-  </button>
-  <!-- button to check the current numbers entered -->
-  <button id="check-btn" onclick="checkButtonClick()" class="button bar-button more-button">
-    <span class="material-icons">done_all</span>
-    <span>Check</span>
-  </button>
-  <!-- button to check if the solution is unique (hidden by default) -->
-  <button id="isunique-btn" style="display: none;" onclick="isUniqueButtonClick();" class="button bar-button more-button">
-    <span class="material-icons">call_split</span>
-    <span>Is unique</span>
-  </button>
-  <!-- button to solve the puzzle -->
-  <button id="solve-btn" style="display: none;" onclick="solveButtonClick()" class="button bar-button more-button">
-    <span class="material-icons">border_color</span>
-    <span>Solve</span>
-  </button>
-</nav>
-
-<!-- container for the hamburger menu -->
-<div id="hamburger-menu" class="hamburger-menu">
-  <!-- navigation menu within the hamburger menu -->
-  <nav id="nav-menu" class="nav-menu">
-    <!-- header section of navigation menu -->
-    <div class="nav-head">
-      <!-- title displayed at the top of the navigation menu -->
-      <div class="nav-head-title">Sudoku</div>
-    </div>
-    <!-- list of navigation menu items -->
-    <ul class="nav-items">
-      <!-- button to start a new game -->
-      <button onclick="showDialogClick('dialog');" ripple-color="#003c8f" class="button nav-item vertical-adjust">
-        <div>
-          <!-- icon and label for the new game option -->
-          <span class="material-icons">add</span>
-          <span style="left:12px;">New game</span>
-        </div>
+  <body>
+    <!-- Navigation bar -->
+    <nav class="app-bar">
+      <button onclick="HamburgerButtonClick();" class="button bar-button hamburger-button">
+        <span class="material-icons">menu</span>
       </button>
-    </ul>
-  </nav>
-</div>
+      
+      <div class="bar-font title">Sudoku</div>
+      
+      <div id="moreoption-sec" class="more-option-div more-button" style="display: none;">
+        <button onclick="moreOptionButtonClick()" class="button bar-button">
+          <span class="material-icons">more_vert</span>
+        </button>
+        <div id="more-option-list" style="visibility: hidden; max-height: 10px; max-width: 40px; min-width: 40px;" class="more-option-list">
+          <button onclick="hintButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Hint</button>
+          <button onclick="restartButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Restart</button>
+          <button onclick="SurrenderButtonClick()" ripple-color="tomato" class="button nav-item vertical-adjust">Surrender</button>
+        </div>
+      </div>
 
-<!-- floating button for choosing a new game -->
-<div class="floating">
-  <!-- button to open the new game dialog -->
-  <button onclick="showDialogClick('dialog');" class="button floating-btn vertical-adjust">
-    <span class="material-icons">add</span>
-  </button>
-</div>
+      <button id="pause-btn" onclick="pauseGameButtonClick()" class="button bar-button more-button" style="display:none;">
+        <span id="pause-icon" class="material-icons">pause</span>
+        <span id="pause-text">Pause</span>
+      </button>
 
-<!-- dialog container for the new game options -->
-<div id="dialog" class="dialog">
-  <!-- content box for the dialog -->
-  <div id="dialog-box" class="dialog-content">
-    <!-- header section -->
-    <div class="dialog-header">New game</div>
-    <!-- body section -->
-    <div class="dialog-body">
-      <!-- instruction for the user -->
-      <p>Select game difficulty to get started.</p>
-      <!-- list of difficulty options as radio buttons -->
-      <ul>
-        <!-- option: very easy -->
-        <li class="radio-option">
-          <label for="very-easy">
-            <input id="very-easy" value="very easy" type="radio" name="difficulty"> Very easy
-          </label>
-        </li>
-        <!-- option: easy -->
-        <li class="radio-option">
-          <label for="easy">
-            <input id="easy" value="easy" type="radio" name="difficulty"> Easy
-          </label>
-        </li>
-        <!-- option: normal -->
-        <li class="radio-option">
-          <label for="normal">
-            <input id="normal" value="normal" type="radio" name="difficulty"> Normal
-          </label>
-        </li>
-        <!-- options: hard -->
-        <li class="radio-option">
-          <label for="hard">
-            <input id="hard" value="hard" type="radio" name="difficulty"> Hard
-          </label>
-        </li>
-        <!-- option: expert (labeled as "very hard") -->
-        <li class="radio-option">
-          <label for="very-hard">
-            <input id="very-hard" value="expert" type="radio" name="difficulty"> Expert
-          </label>
-        </li>
-      </ul>
+      <button id="check-btn" onclick="checkButtonClick()" class="button bar-button more-button" style="display:none;>
+        <span class="material-icons">done_all</span>
+        <span>Check</span>
+      </button>
+
+      <button id="isunique-btn" style="display: none;" onclick="isUniqueButtonClick && isUniqueButtonClick()" class="button bar-button more-button">
+        <span class="material-icons">call_split</span>
+        <span>Is unique</span>
+      </button>
+
+      <button id="solve-btn" style="display: none;" onclick="solveButtonClick && solveButtonClick()" class="button bar-button more-button">
+        <span class="material-icons">border_color</span>
+        <span>Solve</span>
+      </button>
+    </nav>
+
+    <!-- Hamburger menu -->
+    <div id="hamburger-menu" class="hamburger-menu">
+      <nav id="nav-menu" class="nav-menu">
+        <div class="nav-head">
+          <div class="nav-head-title">Sudoku</div>
+        </div>
+
+        <ul class="nav-items">
+          <button onclick="showDialogClick('dialog');" ripple-color="#003c8f" class="button nav-item vertical-adjust">
+            <div>
+              <span class="material-icons">add</span>
+              <span style="left:12px;">New game</span>
+            </div>
+          </button>
+        </ul>
+      </nav>
     </div>
-    <!-- footer section of the dialog -->
-    <div class="dialog-footer">
-      <!-- button to confirm and start the game -->
-      <button onclick="startGameButtonClick();" ripple-color="#003c8f" class="button dialog-btn vertical-adjust">OK</button>
-      <!-- button to cancel and close the dialog -->
-      <button onclick="hideDialogButtonClick('dialog');" ripple-color="#202020" class="button dialog-btn vertical-adjust">Cancel</button>
+
+    <!-- floating new game button -->
+    <div class="floating">
+      <button onclick="showDialogClick('dialog');" class="button floating-btn vertical-adjust">
+        <span class="material-icons">add</span>
+      </button>
     </div>
-  </div>
-</div>
+
+    <!-- new game dialog -->
+    <div id="dialog" class="dialog">
+      <div id="dialog-box" class="dialog-content" tabindex="-1">
+        <div class="dialog-header">New game</div>
+        <div class="dialog-body">
+          <p>Select game difficulty to get started.</p>
+          <ul>
+            <li class="radio-option">
+              <label for="very-easy">
+                <input id="very-easy" value="very easy" type="radio" name="difficulty"> Very easy
+              </label>
+            </li>
+            <li class="radio-option">
+              <label for="easy">
+                <input id="easy" value="easy" type="radio" name="difficulty"> Easy
+              </label>
+            </li>
+            <li class="radio-option">
+              <label for="normal">
+                <input id="normal" value="normal" type="radio" name="difficulty"> Normal
+              </label>
+            </li>
+            <li class="radio-option">
+              <label for="hard">
+                <input id="hard" value="hard" type="radio" name="difficulty"> Hard
+              </label>
+            </li>
+            <li class="radio-option">
+              <label for="very-hard">
+                <input id="very-hard" value="expert" type="radio" name="difficulty"> Expert
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <div class="dialog-footer">
+          <button onclick="startGameButtonClick();" ripple-color="#003c8f" class="button dialog-btn vertical-adjust">OK</button>
+          <button onclick="hideDialogButtonClick('dialog');" ripple-color="#202020" class="button dialog-btn vertical-adjust">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- main content -->
+  </body>
+
+
+
 
 <!-- main container for the sudoku game -->
 <div class="body" id="sudoku">
