@@ -74,27 +74,27 @@ td:nth-child(3n + 1) {
 
 /* HIGHLIGHTS FOR CORRECT INPUT CELLS */
 .right-cell { 
-  box-shadow: inset 0px 0px 20px 3px rgb(35, 212, 103); /*green glow inside the cell */
+  box-shadow: inset 0px 0px 20px 3px rgb(35, 212, 103);
 }
 
 /* HIGHLIGHTS FOR INCORRECT INPUT CELLS */
 .wrong-cell {
-  box-shadow: inset 0px 0px 20px 3px rgb(230, 7, 7); /* red glow inside the cell */
+  box-shadow: inset 0px 0px 20px 3px rgb(230, 7, 7);
 }
 
 /* HIGHLIGHTS FOR WARNING CELLS */
 .warning-cell {
-  box-shadow: inset 0px 0px 20px 3px goldenrod; /* yellow glow inside the cell */
+  box-shadow: inset 0px 0px 20px 3px goldenrod;
 }
 
 /* ===== MATERIAL DESIGN ===== */
 /* STYLING FOR THE TOP BAR */
 .app-bar {
-  background: #6f0ae3; /* purple background for the app bar */
+  background: #6f0ae3;
   width: 100%;
   position: fixed;
   height: 64px;
-  color: #fff; /* white text color */
+  color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.14);
   z-index: 5;
   top: 0;
