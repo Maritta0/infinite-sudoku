@@ -49,7 +49,7 @@ td input {
 
 /* STYLING FOR DISABLED INPUT ELEMENTS */
 input:disabled { 
-  background-color: #d1a7f6; /* light purple background to indicate disabled state */
+  background-color: #d1a7f6;
 }
 
 /* ADDS THICKER BOTTOM BORDER EVERY 3 ROWS */
