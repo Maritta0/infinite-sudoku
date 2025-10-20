@@ -9,7 +9,7 @@
 /* BACKGROUND STYLING FOR THE ENTIRE PAGE */
 html,
 body {
-  background-color: rgba(235, 235, 240); /* sets a light grey background */
+  background-color: rgba(235, 235, 240);
 }
 
 /* STYLING FOR THE SUDOKU TABLE */
