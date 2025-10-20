@@ -119,129 +119,122 @@
     </div>
 
     <!-- main content -->
+    <div class="body" id="sudoku">
+      <div class="card game">
+        <table id="puzzle-grid" aria-label="Sudoku grid">
+          <!-- 9 rows, 9 cells each -->
+          <!-- Each input ises onchange to call global checkInput() -->
+          <!-- Row 1 -->
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <!-- Rows 2...9 repeated -->
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+          <tr>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card status">
+        <div id="game-number">game #0</div>
   </body>
 
 
 
 
-<!-- main container for the sudoku game -->
-<div class="body" id="sudoku">
-  <!-- card container for the game grid -->
-  <div class="card game">
-    <!-- table structure for the grid -->
-    <table id="puzzle-grid">
-      <!-- each <tr> represents a row in the grid -->
-      <tr>
-        <!-- each <td> represents a cell in the grid -->
-        <td>
-          <!-- input field for a cell, limited to 1 character -->
-          <input type="text" maxlength="1" onchange="checkInput(this)" disabled />
-        </td>
-        <!-- repeat for the rest of the cells in this row -->
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <!-- repeat the same structure for all rows -->
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-      <tr>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-        <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-      </tr>
-    </table>
-  </div>
-  <!-- card containing game status and controls -->
-  <div class="card status">
-    <!-- display the current game number -->
-    <div id="game-number">game #0</div>
     <!-- status list containing timer, difficulty, and remaining numbers -->
     <ul class="game-status">
       <!-- timer section -->
