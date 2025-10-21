@@ -265,86 +265,64 @@
                   <div id="remain-7" class="remain-cell-content">0</div>
                 </div>
               </div>
+
+              <div class="remain-column">
+                <div class="remain-cell">
+                  <div class="remain-cell-header">2</div>
+                  <div id="remain-2" class="remain-cell-content">0</div>
+                </div>
+                <div class="remain-cell">
+                  <div class="remain-cell-header">5</div>
+                  <div id="remain-5" class="remain-cell-content">0</div>
+                </div>
+                <div class="remain-cell">
+                  <div class="remain-cell-header">8</div>
+                  <div id="remain-8" class="remain-cell-content">0</div>
+                </div>
+              </div>
+
+              <div class="remain-column">
+                <div class="remain-cell">
+                  <div class="remain-cell-header">3</div>
+                  <div id="remain-3" class="remain-cell-content">0</div>
+                </div>
+                <div class="remain-cell">
+                  <div class="remain-cell-header">6</div>
+                  <div id="remain-6" class="remain-cell-content">0</div>
+                </div>
+                <div class="remain-cell">
+                  <div class="remain-cell-header">9</div>
+                  <div id="remain-9" class="remain-cell-content">0</div>
+                </div>
+              </div>
+            </div>
           </li>
+        </ul>
+
+        <button id="pause-btn-2" onclick="pauseGameButtonClick()" class="option-button" style="display:none;">
+          <span class="material-icons">pause</span>
+          <span>Pause</span>
+        </button>
+        <button id="check-btn-2" onclick="checkButtonClick()" class="option-button" style="display:none;">
+          <span class="material-icons">done_all</span>
+          <span>Check</span>
+        </button>
+        <button onclick="hintButtonClick()" class="option-button">
+          <span class="material-icons">help</span>
+          <span>Hint</span>
+        </button>
+        <button onclick="restartButtonClick()" class="option-button">
+          <span class="material-icons">refresh</span>
+          <span>Restart</span>
+        </button>
+        <button onclick="SurrenderButtonClick()" class="option-button">
+          <span class="material-icons">flag</span>
+          <span>Surrender</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script src="script.js"></script>
   </body>
-
-
-
-          <!-- second column (2, 5, 8) -->
-          <div class="remain-column">
-            <div class="remain-cell">
-              <!-- header showing the number 2 -->
-              <div class="remain-cell-header">2</div>
-              <!-- remaining count for 2, dynamically updated -->
-              <div id="remain-2" class="remain-cell-content">0</div>
-            </div>
-            <div class="remain-cell">
-              <!-- header showing the number 5 -->
-              <div class="remain-cell-header">5</div>
-              <!-- remaining count for 5, dynamically updated -->
-              <div id="remain-5" class="remain-cell-content">0</div>
-            </div>
-            <div class="remain-cell">
-              <!-- header showing the number 8 -->
-              <div class="remain-cell-header">8</div>
-              <!-- remaining count for 8, dynamically updated -->
-              <div id="remain-8" class="remain-cell-content">0</div>
-            </div>
-          </div>
-          <!-- third column (3, 6, 9) -->
-          <div class="remain-column">
-            <div class="remain-cell">
-              <!-- header showing the number 3 -->
-              <div class="remain-cell-header">3</div>
-              <!-- remaining count for 3, dynamically updated -->
-              <div id="remain-3" class="remain-cell-content">0</div>
-            </div>
-            <div class="remain-cell">
-              <!-- header showing the number 6 -->
-              <div class="remain-cell-header">6</div>
-              <!-- remaining count for 6, dynamically updated -->
-              <div id="remain-6" class="remain-cell-content">0</div>
-            </div>
-            <div class="remain-cell">
-              <!-- header showing the number 9 -->
-              <div class="remain-cell-header">9</div>
-              <!-- remaining count for 9, dynamically updated -->
-              <div id="remain-9" class="remain-cell-content">0</div>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <!-- control buttons -->
-    <!-- pause button -->
-    <button class="option-button">
-      <span class="material-icons">pause</span>
-      <!-- pause button label -->
-      <span>Pause</span>
-    </button>
-    <!-- check buttin -->
-    <button class="option-button">
-      <span class="material-icons">done_all</span>
-      <!-- check button label -->
-      <span>Check</span>
-    </button>
-    <!-- hint button -->
-    <button class="option-button">
-      <span class="material-icons">help</span>
-      <!-- hint button label -->
-      <span>Hint</span>
-    </button>
-    <!-- restart button -->
-    <button class="option-button">
-      <span class="material-icons">refresh</span>
-      <!-- restart button label -->
-      <span>Restart</span>
-    </button>
-    <!-- surrender button -->
-    <button class="option-button">
-      <span class="material-icons">flag</span>
-      <!-- surrender button label -->
-      <span>Surrender</span>
-    </button>
-  </div>
-</div>
+</html>
