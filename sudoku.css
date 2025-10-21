@@ -197,8 +197,8 @@ td:nth-child(3n + 1) {
   width: 96px;
   height: 96px;
   top: 16px;
-  left: 16px; /* aligns image slightly inward from the left */
-  overflow: hidden; /* ensures image stays within the circular shape */
+  left: 16px;
+  overflow: hidden;
 }
 
 /* STYLING FOR THE TITLE IN THE NAVIGATION MENU HEADER */
@@ -206,8 +206,8 @@ td:nth-child(3n + 1) {
   color: #fff;
   position: absolute;
   bottom: 10px;
-  margin-left: auto; /* centers the title horizontally */
-  margin-right: auto; /* centers the title horizontally */
+  margin-left: auto;
+  margin-right: auto;
   left: 0px;
   right: 0;
   font-size: 22px;
@@ -223,23 +223,23 @@ td:nth-child(3n + 1) {
 /* INDIVIDUAL NAVIGATION ITEMS */
 .nav-item {
   font-weight: 700;
-  display: block; /* each item takes up the full width */
+  display: block;
   color: #333;
   background: #0000;
-  padding: 15px 0 15px 22px; /* adds vertical padding and left indentation */
-  letter-spacing: 1.1px; /* slightly increased spacing for better readability */
-  outline: none; /* removes focus outline */
+  padding: 15px 0 15px 22px;
+  letter-spacing: 1.1px;
+  outline: none;
   border: none;
-  width: 100%; /* ensures full width for clickability */
+  width: 100%;
   text-align: left;
-  margin: 0 !important; /* ensures no extra margin is applied */
+  margin: 0 !important;
 }
 
 /* MAIN BODY SECTION OF THE PAGE */
 .body {
   width: 95%;
   max-width: 800px;
-  margin: 96px auto 16px auto; /* centers the body and adds top and bottom margins */
+  margin: 96px auto 16px auto;
   display: flex;
 }
 
