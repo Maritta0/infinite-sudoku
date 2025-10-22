@@ -246,24 +246,24 @@ function ViewPuzzle(grid) {
    }
 }
 
-
-// read current grid 
 function readInput() {
-  var result = [];
-  for (var i = 0; i < 9; i++) {
-    result.push("");
-    for (var j = 0; j < 9; j++) {
-      var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
-      if (input.value == "" || input.value.length > 1 || input.value == "0") {
-        input.value = "";
-        result[i] += "0";
-      } else {
-        result[i] += input.value;
+   var result = [];
+   for (var i = 0; i < 9; i++) {
+      var row = "";
+      for (var j = 0; j < 9; j++) {
+         var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
+         if (!input || input.value === "" || input.value.length > 1 || input.value === "0") {
+            input.value = "";
+            row += "0";
+         } else {
+            row += input.value;
+         }
       }
-    }
-  }
-  return result;
+      result.push(row);
+   }
+   return result;
 }
+
 
 // check value if it's correct or wrong 
 // return: 
