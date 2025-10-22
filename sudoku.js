@@ -62,9 +62,7 @@ function getGridInit() {
   return result;
 }
 
-
-
-// return columns from a row grid 
+// get columns from rows (both arrays of strings) 
 function getColumns(grid) {
   var result = ["", "", "", "", "", "", "", "", ""];
   for (var i = 0; i < 9; i++) {
@@ -75,12 +73,13 @@ function getColumns(grid) {
   return result;
 }
 
-// return blocks from a row grid 
+// get 3x3 blocks as strings 
 function getBlocks(grid) {
   var result = ["", "", "", "", "", "", "", "", ""];
   for (var i = 0; i < 9; i++) {
     for (var j = 0; j < 9; j++) {
-      result[Math.floor(i / 3) * 3 + Math.floor(j / 3)] +=grid[i][j];
+       var idx = Math.floor(i/3)*3 + Math.floor(j/3);
+      result[idx] += grid[i][j];
     }
   }
   return result;
