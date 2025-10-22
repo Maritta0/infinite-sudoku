@@ -621,3 +621,46 @@ function checkInput(input) {
       input.valu = v[0];
    }
 }
+
+/* ------------------------------------
+   Event wiring and UI polish (ripples)
+   ------------------------------------ */
+window.onload = function () {
+   table = document.getElementById("puzzle-grid");
+   // ripple effect 
+   var rippleButtons = document.getElementsByClassName("button");
+   for (var i = 0; i < rippleButtons.length; i++) {
+      rippleButtons[i].onmousedown = function (e) {
+         var rect = this.getBoundingClientRect();
+         var x = e.clientX - rect.left;
+         var y = e.clientY - rect.top;
+         var rippleItem = document.createElement("div");
+         rippleItem.classList.add("ripple");
+         rippleItem.style.left = x + "px";
+         rippleItem.style.top = y + "px";
+         var rippleColor = this.getAttribute("ripple-color");
+         if (rippleColor) rippleItem.style.background = rippleColor;
+         this.appendChild(rippleItem);
+         setTimeout(function () { if (rippleItem.parentElement) rippleItem.parentElement.removeChild(rippleItem); }, 1500);
+      };
+   }
+   // add input handlers to grid inputs 
+   if (!table) return;
+   for (var r = 0; r < 9; r++) {
+      for (var c = 0; c < 9; c++) {
+         var input = table.rows[r].cells[c].getElementsByTagName("input")[0];
+         if (!input) continue;
+         input.onchange = function () {
+            addClassToCell(this);
+            checkInput(this);
+            if (this.value >= "1" && this.value <= "9") remaining[this.value - 1]--;
+            if (this.oldvalue !== undefined && this.oldvalue !== "") {
+               if (this.oldvalue >= "1" && this.oldvalue <= "9") remaining[this.oldvalue - 1]++;
+            }
+            canSolved = true;
+            updateRemainingTable();
+         };
+         input.onfocus = function () { this.oldvalue = this.value; };
+      }
+   }
+};
