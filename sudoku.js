@@ -17,73 +17,52 @@ var pauseTimer = false;
 var intervalId;
 var gameOn = false;
 
-function newGame(difficulty) {
-  // get random position for numbers from 1 to 9 to generate a random puzzle 
-  var grid = getGridInit();
-  // prepare rows, columns, and blocks to solve the initialed grid 
-  var rows = grid;
-  var cols = getColumns(grid);
-  var blks = getBlocks(grid);
-  // generate allowed digits for each cell 
-  var psNum = generatePossibleNumber(rows, cols, blks);
-  // solve the grid 
-  solution = solveGrid(psNum, rows, true);
-  // reset the game state timer and remaining number 
-  timer = 0;
-  for (var i in remaining) {
-    remaining[i] = 9;
-  }
-  // empty cells from grid depend on difficulty 
-  // it will be: 
-  // 59 empty cells for very easy 
-  // 64 empty cells for easy 
-  // 69 empty cells for normal 
-  // 74 empty cells for hard 
-  // 79 empty cells for expert 
-  puzzle = makeItPuzzle(solution, difficulty);
-  // game is on when the difficulty = [0, 4] 
-  gameOn = difficulty < 5 && difficulty >= 0;
-  // update the UI 
-  ViewPuzzle(puzzle);
-  updateRemainingTable();
-  // start the timer 
-  if (gameOn) {
-    startTimer();
-  }
-}
+/* ----------------------------
+   Helper / generator functions
+   ---------------------------- */
 
-function getGridInnit() {
+// create initial grid with one random position for numbers 1...9
+function getGridInit() {
   var rand = [];
-  // for each digits from 1 to 9 find a random row and column 
-  for (var i = 1; i <= 9; i++) {
-    var row = Math.floor(Math.random() * 9);
-    var col = Math.floor(Math.random() * 9);
-    var accept = true;
-    for (var j = 0; j < rand.length; j++) {
-      // if number exist or there's a number already located in there, ignore and try again 
-      if ((rand[j][0] == i) | ((rand[j][1] == row) & (rand[j][2] == col))) {
-        accept = false;
-        // try to get a new position for this number 
-        i--;
+  // pick a random unique (number,row,col) positions 
+  for (var n = 1; n <= 9; n++) {
+    var tries = 0;
+    while (true) {
+      var row = Math.floor(Math.random() * 9);
+      var col = Math.floor(Math.random() * 9);
+      var ok = true;
+      for (var j = 0; j < rand.length; j++) {
+        // if same number already chosen or exact cell taken 
+        if (rand[j][0] === n || (rand[j][1] === row && rand[j][2] === col)) {
+          ok = false;
+          break;
+        }
+      }
+      if (ok) {
+        rand.push([n, row, col]);
+        break;
+      }
+      tries++;
+      if (tries > 100) {
+        // fallback - break to avoid infinite loop 
+        rand.push([n, row, col]);
         break;
       }
     }
-    if (accept) {
-      rand.push([i, row, col]);
-    }
   }
-  // initialise new empty grid 
+
   var result = [];
-  for (var i = 0; i < 9; i++) {
-    var row = "000000000";
-    result.push(row);
-  }
-  // put numbers in the grid 
+  for (var r = 0; r < 9; r++) result.push("000000000");
   for (var i = 0; i < rand.length; i++) {
-    result[rand[i][1]] = replaceCharAt(result[rand[i][1]], rand[i][2], rand[i][0]);
+    var n = String(rand[i][0]);
+    var rr = rand[i][1];
+    var cc = rand[i][2];
+    result[rr] = replaceCharAt(result[rr], cc, n);
   }
   return result;
 }
+
+
 
 // return columns from a row grid 
 function getColumns(grid) {
