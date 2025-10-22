@@ -600,46 +600,24 @@ function hintButtonClick() {
    })(input);
 }
 
+/* --------------------------------------------
+   Global small helpers used by HTML attributes 
+   -------------------------------------------- */
 
-
-function showDialogClick(dialogId) {
-  // to hide navigation bar if it opened 
-  hideHamburgerClick();
-  var dialog = document.getElementById(dialogId);
-  var dialogBox = document.getElementById(dialogId + "-box");
-  dialogBox.focus();
-  dialog.style.opacity = 0;
-  dialogBox.style.marginTop = "-500px";
-  dialog.style.display = "block";
-  dialog.style.visibility = "visible";
-  // to view and move the dialog to the correct position after it set visible 
-  setTimeout(function() {dialog.style.opacity = 1; dialogBox.style.marginTop = "64px";}, 200);
-}
-
-// show more option menu 
-function moreOptionButtonClick() {
-  var moreOptionList = document.getElementById("more-option-list");
-  // timeout to avoid hide menu immediately in window event 
-  setTimeout(function() {
-    if (moreOptionList.style.visibility == "hidden") {
-      moreOptionList.style.visibility = "visible";
-      setTimeout(function() {moreOptionList.style.maxWidth = "160px"; moreOptionList.style.minWidth = "160px"; moreOptionList.style.maxHeight = "160px"; moreOptionList.style.opacity = "1";}, 50);
-    }
-  }, 50);
-}
-
-function hideDialogButtonClick(dialogId) {
-  var dialog = document.getElementById(dialogId);
-  var dialogBox = document.getElementById(dialogId + "-box");
-  dialog.style.opacity = 0;
-  dialogBox.style.marginTop = "-500px";
-  setTimeout(function() {dialog.style.visibility = "collapse";}, 500);
-}
-
-// hide hamburger menu when click outside 
-function hideHamburgerClick() {
-  var div = document.getElementById("hamburger-menu");
-  var menu = document.getElementById("nav-menu");
-  menu.style.left = "-256px";
-  setTimeout(function() {div.style.opacity = 0; div.style.visibility = "collapse";}, 200);
+// called by each input's onchange attribute in HTML (keeps backward compatibility)
+function checkInput(input) {
+   if (!input) return;
+   var v = input.value;
+   if (!v) return;
+   // only accept 1-9 or question marks 
+   if (v[0] < "1" || v[0] > "9") {
+      if (v !== "?") {
+         inut.value = "";
+         alert("Only numbers [1-9] and question mark '?' are allowed!");
+         input.focus();
+      }
+   } else {
+      // normalise to single digit 
+      input.valu = v[0];
+   }
 }
