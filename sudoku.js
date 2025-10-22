@@ -424,47 +424,41 @@ function hideHamburgerClick() {
    setTimeout(function(){ div.style.opacity = 0; div.style.visibility = "collapse"; div.style.display = "none"; }, 200);
 }
 
+/* --------------------------------------
+   Controls: new/pause/check/restart/hint 
+   -------------------------------------- */ 
+
+function newGame(difficulty) {
+   var grid = getGridInit();
+   var rows = grid;
+   var cols = getColumns(grid);
+   var blks = getBlocks(grid);
+   var psNum = generatePossibleNumber(rows, cols, blks);
+   solution = solveGrid(psNum, rows, true);
+   timer = 0;
+   for (var i = 0; i < 9; i++) remaining[i] = 9;
+   puzzle = makeItPuzzle(solution, difficulty);
+   gameOn = difficulty < 5 && difficulty >= 0;
+   ViewPuzzle(puzzle);
+   updateRemainingTable();
+   if (gameOn) startTimer();
+   // show controls 
+   document.getElementById("moreoption-sec").style.display = "block";
+   document.getElementById("pause-btn").style.display = "block";
+   document.getElementById("check-btn").style.display = "block";
+}
+
+function getSelectedDifficulty(){
+   var difficulties = document.getElementsByName("difficulty");
+   for (var i = 0; i < difficulties.length; i++) {
+      if (difficulties[i].checked) return i; // 0 -> very easy etc 
+   }
+return -1;
+}
    
 
-// start new game 
-function startGameButtonClick() {
-  var difficulties = document.getElementsByName("difficulty");
-  // difficulty: 
-  // 0 expert 
-  // 1 hard 
-  // 2 normal 
-  // 3 easy 
-  // 4 very easy 
-  // 5 solved 
-  // initial difficulty to 5 (solved) 
-  var difficulty = 5;
-  // get difficulty value 
-  for (var i = 0; i < difficulties.length; i++) {
-    if (difficulties[i].checked) {
-      newGame(4 - i);
-      difficulty = i;
-      break;
-    }
-  }
-  if (difficulty > 4) {
-    newGame(5);
-  }
-  hideDialogButtonClick("dialog");
-  gameId++;
-  document.getElementById("game-number").innerText = "game #" + gameId;
-  // hide solver buttons 
-  // show other buttons 
-  document.getElementById("moreoption-sec").style.display = "block";
-  document.getElementById("pause-btn").style.display = "block";
-  document.getElementById("check-btn").style.display = "block";
-  document.getElementById("isunique-btn").style.display = "none";
-  document.getElementById("solve-btn").style.display = "none";
-  // prerpare view for new game 
-  document.getElementById("timer-label").innerText = "Time";
-  document.getElementById("timer").innerText = "00:00";
-  document.getElementById("game-difficulty-label").innerText = "Game difficulty";
-  document.getElementById("game-difficulty").innerText = difficulty < difficulties.length ? difficulties[difficulty].value : "solved";
-}
+
+
 
 // pause/continue button click function 
 function pauseGameButtonClick() {
