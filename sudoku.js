@@ -299,21 +299,21 @@ function updateRemainingTable() {
    }
 }
 
-
-// start stopwatch timer 
+/* -----
+   Timer 
+   ----- */
 function startTimer() {
-  var timerDiv = document.getElementById("timer");
-  clearInterval(intervalId);
-  // update stopwatch value every one second 
-  pauseTimer = false;
-  intervalId = setInterval(function () {
-    if (!pauseTimer) {
-      timer++;
-      var min = Math.floor(timer / 60);
-      var sec = timer % 60;
-      timerDiv.innerText = (("" + min).length < 2 ? "0" + min : min ) + ":" + (("" + sec).length < 2 ? "0" + sec : sec);
-    }
-  }, 1000);
+   var timerDiv = document.getElementById("timer");
+   clearInterval(intervalId);
+   pauseTimer = false;
+   intervalId = setInterval(function () {
+      if (!pauseTimer) {
+         timer++;
+         var min = Math.floor(timer / 60);
+         var sec = timer % 60;
+         timerDiv.innerText = (("" + min).length < 2 ? "0" + min : min ) + ":" + (("" + sec).length < 2 ? "0" + sec : sec);
+      }
+   }, 1000);
 }
 
 // solve sudoku function 
