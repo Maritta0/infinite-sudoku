@@ -678,3 +678,13 @@ window.onclick = function (event) {
       hideMoreOptionMenu();
    }
 };
+
+/* Hamburger toggle */
+function HamburgerButtonClick() {
+   var div = document.getElementById("hamburger-menu");
+   var menu = document.getElementById("nav-menu");
+   if (!div || !menu) return;
+   div.style.display = "block";
+   div.style.visibility = "visible";
+   setTimeout(function(){ div.style.opacity = 1; menu.style.left = "0"; }, 50);
+}
