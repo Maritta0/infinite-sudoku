@@ -526,24 +526,14 @@ function checkButtonClick() {
    }
 }
 
-
-
-// restart game 
 function restartButtonClick() {
-  if (gameOn) {
-    // reset remaining table 
-    for (var i in remaining) {
-      remaining[i] = 9;
-    }
-    // review puzzle 
-    ViewPuzzle(puzzle);
-    // update remaining numbers  
-    updateRemainingTable();
-    // restart the timer
-    // -1 is because it takes 1 sec to update the timer so it will start from 0 
-    timer = -1;
-  }
+   if (!gameOn) return;
+   for (var i = 0; i < 9; i++) remaining[i] = 9;
+   ViewPuzzle(puzzle);
+   updateRemainingTable();
+   timer = -1; // will start from 0 on next tick 
 }
+
 
 // surrender 
 function SurrenderButtonClick() {
