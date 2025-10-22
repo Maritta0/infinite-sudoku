@@ -361,40 +361,55 @@ function solveSudoku(changeUI) {
    return 0;
 }
 
+/* --------------------------
+   UI helpers (menus/dialogs)
+   -------------------------- */
 
-// hide more option menu 
 function hideMoreOptionMenu() {
-  var moreOptionList = document.getElementById("more-option-list");
-  if (moreOptionList.style.visibility == "visible") {
-    moreOptionList.style.maxWidth = "40px";
-    moreOptionList.style.minWidth = "40px";
-    moreOptionList.style.maxHeight = "10px";
-    moreOptionList.style.opacity = "0";
-    setTimeout(function() {moreOptionList.style.visibility = "hidden";}, 175);
-  }
+   var moreOptionList = document.getElementById("more-option-list");
+   if (!moreOptionList) return;
+   if (moreOptionList.style.visibility === "visible") {
+      moreOptionList.style.maxWidth = "40px";
+      moreOptionList.style.minWidth = "40px";
+      moreOptionList.style.maxHeight = "10px";
+      moreOptionList.style.opacity = "0";
+      setTimeout(function() {moreOptionList.style.visibility = "hidden"; }, 175);
+   }
 }
 
-// UI Comunication functions 
-// function that must run when document loaded 
-window.onload = function () {
-  // assigne table to its value 
-  table = document.getElementById("puzzle-grid");
-  // add ripple effect to all buttons in layout 
-  var rippleButtons = document.getElementsByClassName("button");
-  for (var i = 0; i < rippleButtons.length; i++) {
-    rippleButtons[i].onmousedown = function (e) {
-      // get ripple effect's position depend on mouse and button position 
-      var x = e.pageX - this.offsetLeft;
-      var y = e.pageY - this.offsetTop;
-      // add div that represents the ripple 
-      var rippleItem = document.createElement("div");
-      rippleItem.classList.add("ripple");
-      rippleItem.setAttribute("style", "left: " + x + "px; top: " + y + "px");
-      // if ripple item should have special color... get and apply it 
-      var rippleColor = this.getAttribute("ripple-color");
-      if (rippleColor) {
-        rippleItem.style.background = rippleColor;
+
+function showDialogClick(dialogId) {
+   hideHamburgerClick();
+   var dialog = document.getElementById(dialogId);
+   var dialogBox = document.getlElementById(dialogId + "-box");
+   if (!dialog || !dialogBox) return;
+   dialogBox.focus();
+   dialog.style.opacity = 0;
+   dialogBox.style.marginTop = "-500px";
+   dialog.style.display = "block";
+   dialog.style.visibility = "visible";
+   setTimeout(function(){ dialog.style.opacity = 1; dialogBox.style.marginTop = "64px"; }, 200);
+}
+
+function moreOptionButtonClick() {
+   var moreOptionList = document.getElementById("more-option-list");
+   if(!moreOptionList) return;
+   setTimeout(function(){
+      if (moreOptionList.style.visibility === "hidden") {
+         moreOptionList.style.visibility = "visible";
+         setTimeout(function () {
+            moreOptionList.style.maxWidth = "160px";
+            moreOptionList.style.minWidth = "160px";
+            moreOptionList.style.maxHeight = "160px";
+            moreOptionList.style.opacity = "1";
+         }, 50);
       }
+   }, 50);
+}
+
+
+
+   
       this.appendChild(rippleItem);
       // set timer to remove the dif after the effect ends 
       setTimeout(function () {rippleItem.parentElement.removeChild(rippleItem);}, 1500);};
