@@ -264,32 +264,22 @@ function readInput() {
    return result;
 }
 
-
-// check value if it's correct or wrong 
-// return: 
-// 0 for value can't be changed 
-// 1 for correct value 
-// 2 for value that hasn't any conflict with other values 
-// 3 for value that conflicts with value in its row, column, or block 
-// 4 for incorrect input 
+// check single value validity  
+// returns codes: 
+// 0 can't be changed/empty, 1 correct, 2 allowed but not correct, 3 conflict, 4 invalid input 
 function checkValue(value, row, column, block, defaultValue, currectValue) {
-  if (value === "" || value === "0") { 
-    return 0;
-  }
-  if (!(value > "0" && value < ":")) {
-    return 4;
-  }
-  if (value === defaultValue) {
-    return 0;
-  }
-  if (row.indexOf(value) != row.lastIndexOf(value) || column.indexOf(value) != column.lastIndexOf(value) || block.indexOf(value) != block.lastIndexOf(value)) {
-    return 3;
-  }
-  if (value !== currectValue) { 
-    return 2;
-  }
-  return 1;
+   if (value === "" || value === "0") return 0;
+   if (!(value > "0" && value < ":")) return 4;
+   if (value === defaultValue) return 0;
+   if (row.indexOf(value) !== row.lastIndexOf(value) || 
+       column.indexOf(value) !== column.lastIndexOf(value) || 
+       block.indexOf(value) !== block.lastIndexOf(value)) {
+      return 3;
+   }
+   if (value !== currectValue) return 2;
+   return 1;
 }
+
 
 // remove old class from input and add a new class to represent current cell's state 
 function addClassToCell(input, className) {
