@@ -2,16 +2,16 @@
 var table;
 // GAME NUMBER 
 var gameID = 0;
-// PUZZLE GRID 
+// PUZZLE GRID (array of 9 strings, each "012345678")
 var puzzle = [];
 // SOLUTION GRID 
 var solution = [];
 // REMAINING NUMBER COUNTS 
 var remaining = [9, 9, 9, 9, 9, 9, 9, 9, 9];
-// Variable to check if "Sudoku Solver" solve the puzzle 
+// SOLVER STATE 
 var isSolved = false;
 var canSolved = true;
-// STOPWATCH TIMER VARIABLES 
+// TIMER 
 var timer = 0;
 var pauseTimer = false;
 var intervalId;
