@@ -280,32 +280,25 @@ function checkValue(value, row, column, block, defaultValue, currectValue) {
    return 1;
 }
 
-
-// remove old class from input and add a new class to represent current cell's state 
 function addClassToCell(input, className) {
-  // remove old class from input 
-  input.classList.remove("right-cell");
-  input.classList.remove("worning-cell");
-  input.classList.remove("wrong-cell");
-  if (className != undefined) {
-    input.classList.add(className);
-  }
+   input.classList.remove("right-cell");
+   input.classList.remove("warning-cell");
+   input.classList.remove("wrong-cell");
+   if (className) input.classList.add(className);
 }
 
-// update value of remaining numbers in html page 
 function updateRemainingTable() {
-  for (var i = 1; i < 10; i++) {
-    var item = document.getElementById("remain-" + i);
-    item.innerText = remaining[i - 1];
-    item.classList.remove("red");
-    item.classList.remove("gray");
-    if (remaining[i - 1] === 0) {
-      item.classList.add("gray");
-    } else if (remaining[i - 1] < 0 || remaining[i - 1] > 9) {
-      item.classList.add("red");
-    }
-  }
+   for (var i = 1; i < 9; i++) {
+      var item = document.getElementById("remain-" + i);
+      if (!item) continue;
+      item.innerText = remaining[i - 1];
+      item.classList.remove("red");
+      item.classList.remove("gray");
+      if (remaining[i - 1] === 0) item.classList.add("gray");
+      else if (remaining[i - 1] < 0 || remaining[i - 1] > 9) item.classList.add("red");
+   }
 }
+
 
 // start stopwatch timer 
 function startTimer() {
