@@ -50,7 +50,6 @@ function getGridInit() {
       }
     }
   }
-
   var result = [];
   for (var r = 0; r < 9; r++) result.push("000000000");
   for (var i = 0; i < rand.length; i++) {
@@ -112,78 +111,75 @@ function generatePossibleNumber(rows, columns, blocks) {
    return psb;
 }
 
+/* -------------------
+   Backtracking solver 
+   ------------------- */
 
 function solveGrid(possibleNumber, rows, startFromZero) {
-  var solution = [];
-  // solve Sudoku with a backtracking algorithm 
-  // Steps are: 
-  // 1. get all allowed numbers that fit in each empty cell 
-  // 2. generate all possible rows that fit in the first row depend on the allowed number list 
-  // 3. select one row from possible row list and put it in the first row 
-  // 4. go to next row and find all possible number that fit in each cell 
-  // 5. generate all possible row fit in this row then go to step 3 until reach the last row or there aren't any possible rows left 
-  // 6. if next row has no possible numbers left then go to the previous row and try the next possibility from possible rows' list 
-  // 7. if the last row has reached and a row fit in it has found then the grid has solved 
-  var result = nextStep(0, possibleNumber, rows, solution, startFromZero);
-  if (result == 1) {
-    return solution;
-  }
+   var solution = [];
+   // solve Sudoku with a backtracking algorithm 
+   // Steps are: 
+   // 1. get all allowed numbers that fit in each empty cell 
+   // 2. generate all possible rows that fit in the first row depend on the allowed number list 
+   // 3. select one row from possible row list and put it in the first row 
+   // 4. go to next row and find all possible number that fit in each cell 
+   // 5. generate all possible row fit in this row then go to step 3 until reach the last row or there aren't any possible rows left 
+   // 6. if next row has no possible numbers left then go to the previous row and try the next possibility from possible rows' list 
+   // 7. if the last row has reached and a row fit in it has found then the grid is solved 
+   var result = nextStep(0, possibleNumber, rows, solution, startFromZero);
+   if (result === 1) return solution;
+   // if result not 1, no solution found -> undefined 
+   return undefined;
 }
 
-// level is current row number in the grid 
+// helper to try filling rows recursively 
 function nextStep(level, possibleNumber, rows, solution, startFromZero) {
-  // get possible number fit in each cell in this row 
-  var x = possibleNumber.slice(level * 9, (level + 1) * 9);
-  // generate possible numbers sequence that fit in the current row 
-  var y = generatePossibleRows(x);
-  if (y.length == 0) {
-    return 0;
-  }
-  // to allow, check if solution is unique 
-  var start = startFromZero ? 0 : y.length - 1;
-  var stop = startFromZer ? y.length - 1 : 0;
-  var step = startFromZero ? 1 : -1;
-  var condition = startFromZero ? start <= stop : start >= stop; 
-  // try every numbers sequence in this list and go to next row 
-  for (var num = start; condition; num += step) {
-    var condition = startFromZero ? num + step <= stop : num + step >= stop;
-    for (var i = level + 1; i < 9; i++) {
-      solution[i] = rows[i];
-    }
-    solution[level] = y[num];
-    if (level < 8) {
-      ver cols = getColumns(solution);
-      var blocks = getBlocks(solution);
-      var poss = generatePossibleNumber(solution, cols, blocks);
-      if (nextStep(level + 1, poss, rows, solution, startFromZero) == 1) {
-        return 1;
+   var x = possibleNumber.slice(level * 9, (level + 1) * 9);
+   var y = generatePossibleRows(x); // all possible rows fitting this row 
+   if (y.length === 0) return 0;
+   // to allow, check if solution is unique 
+   var start = startFromZero ? 0 : y.length - 1;
+   var stop = startFromZer ? y.length - 1 : 0;
+   var step = startFromZero ? 1 : -1;
+   // iterate through possible rows 
+   for (var num = start; startFromZero ? num <= stop : num >= stop; num += step) {
+      // copy remaining rows (for later checks) 
+      for (var i = level + 1; i < 9; i++) solution[i] = rows[i];
+      solution[level] = y[num];
+      if (level < 8) {
+         ver cols = getColumns(solution);
+         var blks = getBlocks(solution);
+         var poss = generatePossibleNumber(solution, cols, blks);
+         if (nextStep(level + 1, poss, rows, solution, startFromZero) === 1) {
+            return 1;
+         }
+      } else {
+         // last row filled successfully 
+         return 1;
       }
-    }
-    if (level == 8) {
-      return 1;
-    }
-  }
-  return -1;
+   }
+   return -1;
 }
 
-// generate possible numbers sequence that fit in the current row 
+// generate all row strings that match possibleNumber (array of 9 strings) 
 function generatePossibleRows(possibleNumber) {
-  var result = [];
-  function step(level, PossibleRow) {
-    if (level == 9) {
-      result.push(PossibleRow);
-      return;
-    }
-    for (var i in possibleNumber[level]) {
-      if (PossibleRow.includes(possibleNumber[level][i])) {
-        continue;
+   var result = [];
+   function step(level, curRow) {
+      if (level === 9) {
+         result.push(curRow);
+         return;
       }
-      step(level + 1, PossibleRow + possibleNumber[level][i]);
-    }
-  }
-  step(0, "");
-  return result;
+      var options = possibleNumber[level];
+      for (var k = 0; k < options.length; k++) {
+         var d = options[k];
+         if (curRow.includes(d)) continue; // cannot repeat digit in row 
+         step(level + 1, curRow + d);
+      }
+   }
+   step(0, "");
+   return result;
 }
+
 
 // empty cell from grid depends on the difficulty to make the puzzle 
 function makeItPuzzle(grid, difficulty) {
