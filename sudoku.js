@@ -377,7 +377,6 @@ function hideMoreOptionMenu() {
    }
 }
 
-
 function showDialogClick(dialogId) {
    hideHamburgerClick();
    var dialog = document.getElementById(dialogId);
@@ -457,25 +456,47 @@ return -1;
 }
    
 
-
-
-
-// pause/continue button click function 
-function pauseGameButtonClick() {
-  var icon = document.getElementById("pause-icon");
-  var label = document.getElementById("pause-text");
-  // change icon and label of the button and hide or show the grid 
-  if (pauseTimer) {
-    icon.innerText = "pause";
-    label.innerText = "Pause";
-    table.style.opacity = 1;
-  } else {
-    icon.innerText = "play_arrow";
-    label.innerText = "Continue";
-    table.style.opacity = 0;
-  }
-  pauseTimer = !pauseTimer;
+function startGameButtonClick() {
+   var difficulties = document.getElementsByName("difficulty");
+   var difficultyIndex = getSelectedDifficulty();
+   var difficulty = 5; // default solved 
+   if (difficultyIndex >= 0) {
+      // map index -> difficulty used (4 - index)
+      difficulty = 4 - difficultyIndex;
+      newGame(difficulty);
+   } else {
+      // show solved grid 
+      newGame(5);
+   }
+   hideDialogButtonClick("dialog");
+   gameID++;
+   document.getElementById("game-number").innerText = "game #" + gameID;
+   document.getElementById("timer-label").innerText = "Time";
+   document.getElementById("game-difficulty-label").innerText = "Game difficulty";
+   var diffLabe1 = (difficultyIndex >= 0 ? document.getElementsByName("difficulty")[difficultyIndex].value : "solved");
+   document.getElementById("game-difficulty").innerText = diffLabe1;
+   // show options in side card too 
+   var pauseBtn2 = document.getElementById("pause-btn-2");
+   var checkBtn2 = document.getElementById("check-btn-2");
+   if (pauseBtn2) pauseBtn2.style.display = "block";
+   if (checkBtn2) checkBtn2.style.display = "block";
 }
+
+function pauseGameButtonClick() {
+   var icon = document.getElementById("pause-icon");
+   var label = document.getElementById("pause-text");
+   if (pauseTimer) {
+      icon.innerText = "pause";
+      label.innerText = "Pause";
+      if (table) table.style.opacity = 1;
+   } else {
+      icon.innerText = "play_arrow";
+      label.innerText = "Continue";
+      if (table) table.style.opacity = 0;
+   }
+   pauseTimer = !pauseTimer;
+}
+
 
 // check grid if correct 
 function checkButtonClick() {
