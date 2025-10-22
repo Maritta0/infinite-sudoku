@@ -215,23 +215,37 @@ function makeItPuzzle(grid, difficulty) {
 }
 
 
-// view grid in html page 
+/* ---------------------------
+   UI: render / read / helpers 
+   --------------------------- */ 
+
 function ViewPuzzle(grid) {
-  for (var i = 0; i < grid.length; i++) {
-    for (var j = 0; j < grid[i].length; j++) {
-      var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
-      addClassToCell(table.rows[i].cells[j].getElementsByTagName("input")[0];
-      if (grid[i][j] == "0") {
-        input.disabled = false;
-        input.value = "";
-      } else {
-        input.disabled = true;
-        inpute.value = grid[i][j];
-        remaining[grid[i][j] - 1]--;
+   // grid is array of 9 strings 
+   for (var i = 0; i < 9; i++) {
+      for (var j = 0; j < 9; j++) {
+         var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
+         // reset classes and value 
+         addClassToCell(input);
+         var ch = grid[i][j];
+         if (ch === "0") {
+            input.disabled = false;
+            input.value = "";
+         } else {
+            input.disabled = true;
+            inpute.value = ch;
+         }
       }
-    }
-  }
+   }
+   // recompute remaining numbers from scratch 
+   remaining = [9, 9, 9, 9, 9, 9, 9, 9, 9];
+   for (var r = 0; r < 9; r++) {
+      for (var c = 0; c < 9; c++) {
+         var v = table.rows[r].cells[c].getElementsByTagName("input")[0].value;
+         if (v >= "1" && v <= "9") remaining[Number(v) - 1]--;
+      }
+   }
 }
+
 
 // read current grid 
 function readInput() {
