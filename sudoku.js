@@ -180,42 +180,40 @@ function generatePossibleRows(possibleNumber) {
    return result;
 }
 
-
-// empty cell from grid depends on the difficulty to make the puzzle 
+/* ---------------------------------------
+   Make puzzle by removing symmetric cells 
+   --------------------------------------- */
 function makeItPuzzle(grid, difficulty) {
-  // so the puzzle is shown as solved grid 
-  if (!(difficulty < 5 && difficulty > -1)) {
-    difficulty = 13;
-  }
-  ver remainedValues = 81;
-  var puzzle = grid.slice(0);
-  // function to remove value from a cell and its symmetry then return remained values 
-  function clearValue(grid, x, y, remainedValues) {
-    function getSymmetry(x, y) {
-      // Symmetry 
-      var symX = 8 - x;
-      var symY = 8 - y;
-      return [sumX, symY];
+   // if difficulty not valid, show solved grid 
+   if (!(difficulty < 5 && difficulty > -1)) difficulty = 13;
+   var remainedValues = 81;
+   var puzzleLocal = grid.slice(0); // shallow copy of rows (strings) 
+   function getSymmetry(x, y) {
+      return [8 - x, 8 - y];
     }
-    var sym = getSymmetry(x, y);
-    if (grid[y][x] != 0) {
-      grid[y] = replaceCharAt(grid[y], x, "0");
-      remainedValues--;
-      if (x != sym[0] && y != sym[1]) {
-        grid[sym[1]] = replaceCharAt(grid[sym[1]], sym[0], "0");
-        remainedValues--;
-      }
+    function clearValue(gridArr, x, y) {
+       var sym = getSymmetry(x, y);
+       if (gridArr[y][x] !== "0") {
+          gridArr[y] = replaceCharAt(gridArr[y], x, "0");
+          remainedValues--;
+          if (!(x === sym[0] && y === sym[1])) {
+             if (gridArr[sym[1]][sym[0]] !== "0") {
+                gridArr[sym[1]] = replaceCharAt(gridArr[sym[1]], sym[0], "0");
+                remainedValues--;
+             }
+          }
+       }
     }
-    return remainedValues;
-  }
-  // remove value from a cell and its symmetry to reach the expected empty cells amount 
-  while (remainedValues > difficulty * 5 + 20) {
-    var x = Math.floor(Math.random() * 9);
-    var y = Math.floor(Math.random() * 9);
-    remainedValues = clearValue(puzzle, x, y, remainedValues);
-  }
-  return puzzle;
+   while (remainedValues > difficulty * 5 + 20) {
+      var x = Math.floor(Math.random() * 9);
+      var y = Math.floor(Math.random() * 9);
+      clearValue(puzzleLocal, x, y);
+      // safety fallback in case loop runs too long 
+      if (remainedValues < 0) break;
+   }
+   return puzzleLocal;
 }
+
 
 // view grid in html page 
 function ViewPuzzle(grid) {
