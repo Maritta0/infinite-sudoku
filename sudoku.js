@@ -85,37 +85,33 @@ function getBlocks(grid) {
   return result;
 }
 
-// function to replace char in string 
 function replaceCharAt(string, index, char) {
-  if (index > string.length - 1) {
-    return string;
-  }
+  if (index < 0 || index > string.length - 1) return string;
   return string.substr(0, index) + char + string.substr(index + 1);
 }
 
-// get allowed numbers that can be placed in each cell 
+// possible numbers for each cell (returns array length 81 with strings of allowed digits) 
 function generatePossibleNumber(rows, columns, blocks) {
-  var psb = [];
-  // for each cell get number that are not viewed in a row, column or block 
-  // if the cell is not empty, then allowed number is the number already exist in it 
-  for (var i = 0; i < 9; i++) {
-    for (var j = 0; j < 9; j++) {
-      psb[i * 9 + j] = "";
-      if (rows[i][j] != 0) {
-        psb[i * 9 + j] += rows[i][j];
-      } else {
-        for (var k = "1"; k <= "9"; k++) {
-          if (!rows[i].includes(k))
-            if(!columns[j].includes(k))
-              if(!blocks[Math.floor(i / 3) * 3 + Math.floor(j / 3)].includes(k)) {
-                psb[i * 9 + j] += k;
+   var psb = [];
+   for (var i = 0; i < 9; i++) {
+     for (var j = 0; j < 9; j++) {
+       var idx = i*9 + j;
+        psb[idx] = "";
+        if (ch !== "0") {
+           psb[idx] = ch; // already filled 
+        } else {
+           for (var k = 1; k <= 9; k++) {
+              var s = String(k);
+              if (!rows[i].includes(s) && !columns[j].includes(s) && !blocks[Math.floor(i/3)*3 + Math.floor(j/3)].includes(s)) {
+                 psb[idx] += s;
               }
+           }
         }
-      }
-    }
-  }
-  return psb;
+     }
+   }
+   return psb;
 }
+
 
 function solveGrid(possibleNumber, rows, startFromZero) {
   var solution = [];
