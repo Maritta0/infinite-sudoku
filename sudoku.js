@@ -497,47 +497,36 @@ function pauseGameButtonClick() {
    pauseTimer = !pauseTimer;
 }
 
-
-// check grid if correct 
 function checkButtonClick() {
-  // check if game is started 
-  if (gameOn) {
-    // add one minute to the stopwatch as a cost of grid's check 
-    timer += 60;
-    var currentGrid = [];
-    // read gritd status 
-    currentGrid = readInput();
-    var columns = getColumns(currentGrid);
-    var blocks = getBlocks(currentGrid);
-    var errors = 0;
-    var currects = 0;
-    for (var i = 0; i < currentGrid.length; i++) {
-      for (var j = 0; j < currentGrid[i].length; j++) {
-        if (currentGrid[i][j] == "0") continue;
-        // check value if it's correct or wrong 
-        var result = checkValue(currentGrid[i][j], currentGrid[i], columns[j], blocks[Math.floor(i / 3) * 3 + Math.floor(j / 3)], puzzle[i][j], solution[i][j]);
-        // remove old class from input and add a new class to represent current cell's state 
-        addClassToCell(table.rows[i].cells[j].getElementsByTagName("input")[0], result === 1 ? "right-cell" : result === 2 ? "worning-cell" : result === 3 ? "wrong-cell" : undefined);
-        if (result === 1 || result === 0) {
-          currects++;
-        } else if (result === 3) {
-          errors++;
-        }
+   if (!gameOn) return;
+   timer += 60;
+   var currentGrid = readInput();
+   var columns = getColumns(currentGrid);
+   var blocks = getBlocks(currentGrid);
+   var errors = 0;
+   var corrects = 0;
+   for (var i = 0; i < 9; i++) {
+      for (var j = 0; j < 9; j++) {
+         if (currentGrid[i][j] === "0") continue;
+         var result = checkValue(currentGrid[i][j], currentGrid[i], columns[j], blocks[Math.floor(i / 3) * 3 + Math.floor(j / 3)], puzzle[i][j], solution[i] ? solution[i][j] : "-1");
+         var cellInput = table.rows[i].cells[j].getElementsByTagName("input")[0];
+         addClassToCell(cellInput, result === 1 ? "right-cell" : result === 2 ? "warning-cell" : result === 3 ? "wrong-cell" : undefined);
+         if (result === 1 || result === 0) corrects++;
+         else if (result === 3) errors++;
       }
-    }
-    // if all values are correct and they equal original values then game over and the puzzle has been solved 
-    // if all values are correct and they aren't equal original values then game over but the puzzle has not been solved yet 
-    if (currects === 81) {
+   }
+   if (corrects === 81) {
       gameOn = false;
       pauseTimer = true;
-      document.getElementById("game-difficulty").innerText = "Solved";
       clearInterval(intervalId);
-      alert("Congrats, You solved it.");
-    } else if (errors === 0 && currects === 0) {
+      document.getElementById("game-difficulty").innerText = "Solved";
+      alert("Congrats, You solved it!");
+   } else if (errors === 0 && corrects === 0) {
       alert("Congrats, You solved it, but this is not the solution that I want.");
-    }
-  }
+   }
 }
+
+
 
 // restart game 
 function restartButtonClick() {
