@@ -226,14 +226,13 @@ function checkValue(value, row, column, block, defaultValue, currectValue) {
    if (value === defaultValue) return 0;
    if (row.indexOf(value) !== row.lastIndexOf(value) || 
        column.indexOf(value) !== column.lastIndexOf(value) || 
-       block.indexOf(value) !== block.lastIndexOf(value)) {
-      return 3;
-   }
+       block.indexOf(value) !== block.lastIndexOf(value)) return 3;
    if (value !== currectValue) return 2;
    return 1;
 }
 
 function addClassToCell(input, className) {
+   if (!input) return;
    input.classList.remove("right-cell");
    input.classList.remove("warning-cell");
    input.classList.remove("wrong-cell");
@@ -241,7 +240,7 @@ function addClassToCell(input, className) {
 }
 
 function updateRemainingTable() {
-   for (var i = 1; i < 9; i++) {
+   for (var i = 1; i <= 9; i++) {
       var item = document.getElementById("remain-" + i);
       if (!item) continue;
       item.innerText = remaining[i - 1];
@@ -252,60 +251,45 @@ function updateRemainingTable() {
    }
 }
 
-/* -----
-   Timer 
-   ----- */
+/* Timer */
 function startTimer() {
    var timerDiv = document.getElementById("timer");
    clearInterval(intervalId);
    pauseTimer = false;
-   intervalId = setInterval(function () {
+   intervalId = setInterval(function() {
       if (!pauseTimer) {
          timer++;
-         var min = Math.floor(timer / 60);
+         var min = Math.floor(timer/60);
          var sec = timer % 60;
-         timerDiv.innerText = (("" + min).length < 2 ? "0" + min : min ) + ":" + (("" + sec).length < 2 ? "0" + sec : sec);
+         timerDiv.innerText = (("" + min).length < 2 ? "0"+min : min) + ":" + (("" + sec).length < 2 ? "0"+sec : sec);
       }
    }, 1000);
 }
 
-/* ---------------------
-   Solve/check/hint flow 
-   --------------------- */
-
+/* Solve/check/hint flow */
 function solveSudoku(changeUI) {
    puzzle = readInput();
    var columns = getColumns(puzzle);
    var blocks = getBlocks(puzzle);
-   // check if there is any conflict 
    var errors = 0;
    var correctCount = 0;
    for (var i = 0; i < 9; i++) {
       for (var j = 0; j < 9; j++) {
-         var res = checkValue(puzzle[i][j], puzzle[i], columns[j], blocks[Math.floor(i / 3) * 3 + Math.floor(j / 3)], "-1", "-1");
+         var res = checkValue(puzzle[i][j], puzzle[i], columns[j], blocks[Math.floor(i/3)*3 + Math.floor(j/3)], "-1", "-1");
          correctCount += (res === 2 ? 1 : 0);
          errors += (res > 2 ? 1 : 0);
-         addClassToCell(table.rows[i].cells[j].getElementsByTagName("input")[0], res > 2 ? "wrong-cell" : undefined);
+         var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
+         addClassToCell(input, res > 2 ? "wrong-cell" : undefined);
       }
    }
-   if (errors > 0) {
-      canSolved = false;
-      return 2; // invalid input 
-   }
-   canSolved = true;
-   isSolved = true;
-   if (correctCount === 81) return 1; // already solved 
+   if (errors > 0) { canSolved = false; return 2; }
+   canSolved = true; isSolved = true;
+   if (correctCount === 81) return 1;
    var timeStart = Date.now();
-   solution = solveGrid(generatePossibleNumber(puzzle, columns, blocks), puzzle, true);
+   solution = solveGrid(generatePossibleNumber(puzzle, getColumns(puzzle), getBlocks(puzzle)), puzzle, true);
    var took = Date.now() - timeStart;
-   if (changeUI) {
-      document.getElementById("timer").innerText = Math.floor(took / 1000) + "." + ("000" + (took % 1000)).slice(-3);
-   }
-   if (solution === undefined) {
-      isSolved = false;
-      canSolved = false;
-      return 3; // no solution 
-   }
+   if (changeUI) document.getElementById("timer").innerText = Math.floor(took/1000) + "." + ("000" + (took % 1000)).slice(-3);
+   if (solution === undefined) { isSolved = false; canSolved = false; return 3; }
    if (changeUI) {
       remaining = [0, 0, 0, 0, 0, 0, 0, 0, 0];
       updateRemainingTable();
