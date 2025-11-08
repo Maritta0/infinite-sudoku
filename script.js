@@ -147,7 +147,7 @@ function nextStep(level, possibleNumber, rows, solution, startFromZero) {
       for (var i = level + 1; i < 9; i++) solution[i] = rows[i];
       solution[level] = y[num];
       if (level < 8) {
-         ver cols = getColumns(solution);
+         var cols = getColumns(solution);
          var blks = getBlocks(solution);
          var poss = generatePossibleNumber(solution, cols, blks);
          if (nextStep(level + 1, poss, rows, solution, startFromZero) === 1) {
@@ -203,7 +203,7 @@ function makeItPuzzle(grid, difficulty) {
              }
           }
        }
-    }
+   }
    while (remainedValues > difficulty * 5 + 20) {
       var x = Math.floor(Math.random() * 9);
       var y = Math.floor(Math.random() * 9);
