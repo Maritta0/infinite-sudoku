@@ -311,7 +311,6 @@ function hideMoreOptionMenu() {
    }
 }
 
-/* HEREE */
 function showDialogClick(dialogId) {
    hideHamburgerClick();
    var dialog = document.getElementById(dialogId);
@@ -331,7 +330,7 @@ function moreOptionButtonClick() {
    setTimeout(function(){
       if (moreOptionList.style.visibility === "hidden") {
          moreOptionList.style.visibility = "visible";
-         setTimeout(function () {
+         setTimeout(function() {
             moreOptionList.style.maxWidth = "160px";
             moreOptionList.style.minWidth = "160px";
             moreOptionList.style.maxHeight = "160px";
@@ -358,10 +357,7 @@ function hideHamburgerClick() {
    setTimeout(function(){ div.style.opacity = 0; div.style.visibility = "collapse"; div.style.display = "none"; }, 200);
 }
 
-/* --------------------------------------
-   Controls: new/pause/check/restart/hint 
-   -------------------------------------- */ 
-
+/* Controls: new/pause/check/restart/hint */ 
 function newGame(difficulty) {
    var grid = getGridInit();
    var rows = grid;
@@ -377,30 +373,28 @@ function newGame(difficulty) {
    updateRemainingTable();
    if (gameOn) startTimer();
    // show controls 
-   document.getElementById("moreoption-sec").style.display = "block";
-   document.getElementById("pause-btn").style.display = "block";
-   document.getElementById("check-btn").style.display = "block";
+   var more = document.getElementById("moreoption-sec");
+   if (more) more.style.display = "block";
+   var pbtn = document.getElementById("pause-btn");
+   if (pbtn) pbtn.style.display = "block";
+   var cbtn = document.getElementById("check-btn");
+   if (cbtn) cbtn.style.display = "block";
 }
 
 function getSelectedDifficulty(){
    var difficulties = document.getElementsByName("difficulty");
-   for (var i = 0; i < difficulties.length; i++) {
-      if (difficulties[i].checked) return i; // 0 -> very easy etc 
-   }
-return -1;
+   for (var i = 0; i < difficulties.length; i++) if (difficulties[i].checked) return i;
+   return -1;
 }
    
 
 function startGameButtonClick() {
-   var difficulties = document.getElementsByName("difficulty");
    var difficultyIndex = getSelectedDifficulty();
-   var difficulty = 5; // default solved 
+   var difficulty = 5;
    if (difficultyIndex >= 0) {
-      // map index -> difficulty used (4 - index)
       difficulty = 4 - difficultyIndex;
       newGame(difficulty);
    } else {
-      // show solved grid 
       newGame(5);
    }
    hideDialogButtonClick("dialog");
@@ -408,9 +402,8 @@ function startGameButtonClick() {
    document.getElementById("game-number").innerText = "game #" + gameID;
    document.getElementById("timer-label").innerText = "Time";
    document.getElementById("game-difficulty-label").innerText = "Game difficulty";
-   var diffLabe1 = (difficultyIndex >= 0 ? document.getElementsByName("difficulty")[difficultyIndex].value : "solved");
+   var diffLabel = (difficultyIndex >= 0 ? document.getElementsByName("difficulty")[difficultyIndex].value : "solved");
    document.getElementById("game-difficulty").innerText = diffLabe1;
-   // show options in side card too 
    var pauseBtn2 = document.getElementById("pause-btn-2");
    var checkBtn2 = document.getElementById("check-btn-2");
    if (pauseBtn2) pauseBtn2.style.display = "block";
@@ -421,12 +414,12 @@ function pauseGameButtonClick() {
    var icon = document.getElementById("pause-icon");
    var label = document.getElementById("pause-text");
    if (pauseTimer) {
-      icon.innerText = "pause";
-      label.innerText = "Pause";
+      if (icon) icon.innerText = "pause";
+      if (label) label.innerText = "Pause";
       if (table) table.style.opacity = 1;
    } else {
-      icon.innerText = "play_arrow";
-      label.innerText = "Continue";
+      if (icon) icon.innerText = "play_arrow";
+      if (label) label.innerText = "Continue";
       if (table) table.style.opacity = 0;
    }
    pauseTimer = !pauseTimer;
@@ -443,7 +436,7 @@ function checkButtonClick() {
    for (var i = 0; i < 9; i++) {
       for (var j = 0; j < 9; j++) {
          if (currentGrid[i][j] === "0") continue;
-         var result = checkValue(currentGrid[i][j], currentGrid[i], columns[j], blocks[Math.floor(i / 3) * 3 + Math.floor(j / 3)], puzzle[i][j], solution[i] ? solution[i][j] : "-1");
+         var result = checkValue(currentGrid[i][j], currentGrid[i], columns[j], blocks[Math.floor(i/3)*3 + Math.floor(j/3)], puzzle[i][j], solution[i] ? solution[i][j] : "-1");
          var cellInput = table.rows[i].cells[j].getElementsByTagName("input")[0];
          addClassToCell(cellInput, result === 1 ? "right-cell" : result === 2 ? "warning-cell" : result === 3 ? "wrong-cell" : undefined);
          if (result === 1 || result === 0) corrects++;
@@ -466,7 +459,7 @@ function restartButtonClick() {
    for (var i = 0; i < 9; i++) remaining[i] = 9;
    ViewPuzzle(puzzle);
    updateRemainingTable();
-   timer = -1; // will start from 0 on next tick 
+   timer = -1;
 }
 
 function SurrenderButtonClick() {
@@ -487,33 +480,27 @@ function hintButtonClick() {
    for (var i = 0; i < 9; i++) {
       for (var j = 0; j < 9; j++) {
          var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
-         if (!input.value || input.value.length > 1 || input.value === "0") {
-            empty_cells_list.push([i, j]);
-         } else if (solution[i] && input.value !== solution[i][j]) {
-            wrong_cells_list.push([i, j]);
-         }
+         if (!input.value || input.value.length > 1 || input.value === "0") empty_cells_list.push([i,j]);
+         else if (solution[i] && input.value !== solution[i][j]) wrong_cells_list.push([i,j]);
       }
    }
    if (empty_cells_list.length === 0 && wrong_cells_list.length === 0) {
-      gameOn = false;
-      pauseTimer = true;
-      clearInterval(intervalId);
+      gameOn = false; pauseTimer = true; clearInterval(intervalId);
       document.getElementById("game-difficulty").innerText = "Solved";
       alert("Congrats, You solved it!");
       return;
    }
    timer += 60;
-   var input;
-   var chosen;
+   var input, chosen;
    if ((Math.random() < 0.5 && empty_cells_list.length > 0) || wrong_cells_list.length === 0) {
-      var idx = Math.floor(Math.random() * empty_cells_list.length);
+      var idx = Math.floor(Math.random()*empty_cells_list.length);
       chosen = empty_cells_list[idx];
       input = table.rows[chosen[0]].cells[chosen[1]].getElementsByTagName("input")[0];
       input.oldvalue = input.value;
       input.value =solution[chosen[0]][chosen[1]];
       remaining[input.value - 1]--;
    } else {
-      var idx = Math.floor(Math.random() * wrong_cells_list.length);
+      var idx = Math.floor(Math.random()*wrong_cells_list.length);
       chosen = wrong_cells_list[idx];
       input = table.rows[chosen[0]].cells[chosen[1]].getElementsByTagName("input")[0];
       input.oldvalue = input.value;
@@ -522,7 +509,6 @@ function hintButtonClick() {
       remaining[input.value - 1]--;
    }
    updateRemainingTable();
-   // blink the updated cell a few times 
    (function animateHint(el) {
       var count = 0;
       for (var k = 0; k < 6; k++) {
@@ -535,34 +521,26 @@ function hintButtonClick() {
    })(input);
 }
 
-/* --------------------------------------------
-   Global small helpers used by HTML attributes 
-   -------------------------------------------- */
-
+/* Global Helpers */
 // called by each input's onchange attribute in HTML (keeps backward compatibility)
 function checkInput(input) {
    if (!input) return;
    var v = input.value;
    if (!v) return;
-   // only accept 1-9 or question marks 
    if (v[0] < "1" || v[0] > "9") {
       if (v !== "?") {
-         inut.value = "";
+         input.value = "";
          alert("Only numbers [1-9] and question mark '?' are allowed!");
          input.focus();
       }
    } else {
-      // normalise to single digit 
       input.valu = v[0];
    }
 }
 
-/* ------------------------------------
-   Event wiring and UI polish (ripples)
-   ------------------------------------ */
-window.onload = function () {
+/* Event wiring & UI polish (ripples) */
+window.onload = function() {
    table = document.getElementById("puzzle-grid");
-   // ripple effect 
    var rippleButtons = document.getElementsByClassName("button");
    for (var i = 0; i < rippleButtons.length; i++) {
       rippleButtons[i].onmousedown = function (e) {
@@ -576,16 +554,15 @@ window.onload = function () {
          var rippleColor = this.getAttribute("ripple-color");
          if (rippleColor) rippleItem.style.background = rippleColor;
          this.appendChild(rippleItem);
-         setTimeout(function () { if (rippleItem.parentElement) rippleItem.parentElement.removeChild(rippleItem); }, 1500);
+         setTimeout(function() { if (rippleItem.parentElement) rippleItem.parentElement.removeChild(rippleItem); }, 1500);
       };
    }
-   // add input handlers to grid inputs 
    if (!table) return;
    for (var r = 0; r < 9; r++) {
       for (var c = 0; c < 9; c++) {
          var input = table.rows[r].cells[c].getElementsByTagName("input")[0];
          if (!input) continue;
-         input.onchange = function () {
+         input.onchange = function() {
             addClassToCell(this);
             checkInput(this);
             if (this.value >= "1" && this.value <= "9") remaining[this.value - 1]--;
@@ -595,12 +572,12 @@ window.onload = function () {
             canSolved = true;
             updateRemainingTable();
          };
-         input.onfocus = function () { this.oldvalue = this.value; };
+         input.onfocus = function(){ this.oldvalue = this.value; };
       }
    }
 };
 
-/* click outside to hide dialogs/menus */
+/* HEREE click outside to hide dialogs/menus */
 window.onclick = function (event) {
    var d1 = document.getElementById("dialog");
    var d2 = document.getElementById("about-dialog");
