@@ -2,7 +2,7 @@
 var table;
 // GAME NUMBER 
 var gameID = 0;
-// PUZZLE GRID (array of 9 strings, each "012345678")
+// PUZZLE GRID (array of 9 strings)
 var puzzle = [];
 // SOLUTION GRID 
 var solution = [];
@@ -24,7 +24,6 @@ var gameOn = false;
 // create initial grid with one random position for numbers 1...9
 function getGridInit() {
   var rand = [];
-  // pick a random unique (number,row,col) positions 
   for (var n = 1; n <= 9; n++) {
     var tries = 0;
     while (true) {
@@ -32,7 +31,6 @@ function getGridInit() {
       var col = Math.floor(Math.random() * 9);
       var ok = true;
       for (var j = 0; j < rand.length; j++) {
-        // if same number already chosen or exact cell taken 
         if (rand[j][0] === n || (rand[j][1] === row && rand[j][2] === col)) {
           ok = false;
           break;
@@ -43,11 +41,7 @@ function getGridInit() {
         break;
       }
       tries++;
-      if (tries > 100) {
-        // fallback - break to avoid infinite loop 
-        rand.push([n, row, col]);
-        break;
-      }
+      if (tries > 100) { rand.push([n, row, col]); break; }
     }
   }
   var result = [];
@@ -61,7 +55,7 @@ function getGridInit() {
   return result;
 }
 
-// get columns from rows (both arrays of strings) 
+// get columns from rows 
 function getColumns(grid) {
   var result = ["", "", "", "", "", "", "", "", ""];
   for (var i = 0; i < 9; i++) {
@@ -72,13 +66,13 @@ function getColumns(grid) {
   return result;
 }
 
-// get 3x3 blocks as strings 
+// get 3x3 blocks 
 function getBlocks(grid) {
   var result = ["", "", "", "", "", "", "", "", ""];
   for (var i = 0; i < 9; i++) {
     for (var j = 0; j < 9; j++) {
        var idx = Math.floor(i/3)*3 + Math.floor(j/3);
-      result[idx] += grid[i][j];
+       result[idx] += grid[i][j];
     }
   }
   return result;
@@ -89,7 +83,7 @@ function replaceCharAt(string, index, char) {
   return string.substr(0, index) + char + string.substr(index + 1);
 }
 
-// possible numbers for each cell (returns array length 81 with strings of allowed digits) 
+// possible numbers for each cell (81-length array of allowed digits) 
 function generatePossibleNumber(rows, columns, blocks) {
    var psb = [];
    for (var i = 0; i < 9; i++) {
@@ -117,62 +111,41 @@ function generatePossibleNumber(rows, columns, blocks) {
 
 function solveGrid(possibleNumber, rows, startFromZero) {
    var solution = [];
-   // solve Sudoku with a backtracking algorithm 
-   // Steps are: 
-   // 1. get all allowed numbers that fit in each empty cell 
-   // 2. generate all possible rows that fit in the first row depend on the allowed number list 
-   // 3. select one row from possible row list and put it in the first row 
-   // 4. go to next row and find all possible number that fit in each cell 
-   // 5. generate all possible row fit in this row then go to step 3 until reach the last row or there aren't any possible rows left 
-   // 6. if next row has no possible numbers left then go to the previous row and try the next possibility from possible rows' list 
-   // 7. if the last row has reached and a row fit in it has found then the grid is solved 
    var result = nextStep(0, possibleNumber, rows, solution, startFromZero);
    if (result === 1) return solution;
-   // if result not 1, no solution found -> undefined 
    return undefined;
 }
 
-// helper to try filling rows recursively 
 function nextStep(level, possibleNumber, rows, solution, startFromZero) {
    var x = possibleNumber.slice(level * 9, (level + 1) * 9);
-   var y = generatePossibleRows(x); // all possible rows fitting this row 
+   var y = generatePossibleRows(x);
    if (y.length === 0) return 0;
-   // to allow, check if solution is unique 
    var start = startFromZero ? 0 : y.length - 1;
-   var stop = startFromZer ? y.length - 1 : 0;
+   var stop = startFromZero ? y.length - 1 : 0;
    var step = startFromZero ? 1 : -1;
-   // iterate through possible rows 
    for (var num = start; startFromZero ? num <= stop : num >= stop; num += step) {
-      // copy remaining rows (for later checks) 
       for (var i = level + 1; i < 9; i++) solution[i] = rows[i];
       solution[level] = y[num];
       if (level < 8) {
          var cols = getColumns(solution);
          var blks = getBlocks(solution);
          var poss = generatePossibleNumber(solution, cols, blks);
-         if (nextStep(level + 1, poss, rows, solution, startFromZero) === 1) {
-            return 1;
-         }
+         if (nextStep(level + 1, poss, rows, solution, startFromZero) === 1) return 1;
       } else {
-         // last row filled successfully 
          return 1;
       }
    }
    return -1;
 }
 
-// generate all row strings that match possibleNumber (array of 9 strings) 
 function generatePossibleRows(possibleNumber) {
    var result = [];
    function step(level, curRow) {
-      if (level === 9) {
-         result.push(curRow);
-         return;
-      }
+      if (level === 9) { result.push(curRow); return; }
       var options = possibleNumber[level];
       for (var k = 0; k < options.length; k++) {
          var d = options[k];
-         if (curRow.includes(d)) continue; // cannot repeat digit in row 
+         if (curRow.includes(d)) continue;
          step(level + 1, curRow + d);
       }
    }
@@ -180,63 +153,46 @@ function generatePossibleRows(possibleNumber) {
    return result;
 }
 
-/* ---------------------------------------
-   Make puzzle by removing symmetric cells 
-   --------------------------------------- */
+/* Make puzzle by removing symmetric cells */
 function makeItPuzzle(grid, difficulty) {
-   // if difficulty not valid, show solved grid 
    if (!(difficulty < 5 && difficulty > -1)) difficulty = 13;
    var remainedValues = 81;
-   var puzzleLocal = grid.slice(0); // shallow copy of rows (strings) 
-   function getSymmetry(x, y) {
-      return [8 - x, 8 - y];
-    }
-    function clearValue(gridArr, x, y) {
+   var puzzleLocal = grid.slice(0);
+   function getSymmetry(x, y){ return [8-x, 8-y]; }
+   function clearValue(gridArr, x, y) {
        var sym = getSymmetry(x, y);
        if (gridArr[y][x] !== "0") {
-          gridArr[y] = replaceCharAt(gridArr[y], x, "0");
-          remainedValues--;
+          gridArr[y] = replaceCharAt(gridArr[y], x, "0"); remainedValues--;
           if (!(x === sym[0] && y === sym[1])) {
              if (gridArr[sym[1]][sym[0]] !== "0") {
-                gridArr[sym[1]] = replaceCharAt(gridArr[sym[1]], sym[0], "0");
-                remainedValues--;
+                gridArr[sym[1]] = replaceCharAt(gridArr[sym[1]], sym[0], "0"); remainedValues--;
              }
           }
        }
    }
-   while (remainedValues > difficulty * 5 + 20) {
+   var safety = 0;
+   while (remainedValues > difficulty * 5 + 20 && safety < 10000) {
       var x = Math.floor(Math.random() * 9);
       var y = Math.floor(Math.random() * 9);
       clearValue(puzzleLocal, x, y);
-      // safety fallback in case loop runs too long 
-      if (remainedValues < 0) break;
+      safety++;
    }
    return puzzleLocal;
 }
 
 
-/* ---------------------------
-   UI: render / read / helpers 
-   --------------------------- */ 
-
+/* UI: render / read / helpers */ 
 function ViewPuzzle(grid) {
-   // grid is array of 9 strings 
    for (var i = 0; i < 9; i++) {
       for (var j = 0; j < 9; j++) {
          var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
-         // reset classes and value 
          addClassToCell(input);
          var ch = grid[i][j];
-         if (ch === "0") {
-            input.disabled = false;
-            input.value = "";
-         } else {
-            input.disabled = true;
-            inpute.value = ch;
-         }
+         if (ch === "0") { input.disabled = false; input.value = ""; } 
+         else { input.disabled = true; inpute.value = ch; }
       }
    }
-   // recompute remaining numbers from scratch 
+   // recompute remaining numbers 
    remaining = [9, 9, 9, 9, 9, 9, 9, 9, 9];
    for (var r = 0; r < 9; r++) {
       for (var c = 0; c < 9; c++) {
@@ -244,6 +200,7 @@ function ViewPuzzle(grid) {
          if (v >= "1" && v <= "9") remaining[Number(v) - 1]--;
       }
    }
+   updateRemainingTable();
 }
 
 function readInput() {
@@ -253,19 +210,15 @@ function readInput() {
       for (var j = 0; j < 9; j++) {
          var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
          if (!input || input.value === "" || input.value.length > 1 || input.value === "0") {
-            input.value = "";
+            if (input) input.value = "";
             row += "0";
-         } else {
-            row += input.value;
-         }
+         } else row += input.value;
       }
       result.push(row);
    }
    return result;
 }
 
-// check single value validity  
-// returns codes: 
 // 0 can't be changed/empty, 1 correct, 2 allowed but not correct, 3 conflict, 4 invalid input 
 function checkValue(value, row, column, block, defaultValue, currectValue) {
    if (value === "" || value === "0") return 0;
