@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <title>Sudoku</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Material icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- JS -->
+    <script src="script.js" defer></script>
   </head>
 
   <body>
@@ -40,6 +42,7 @@
         <span>Check</span>
       </button>
 
+      <!-- optional solver button (kept hidden by default) -->
       <button id="isunique-btn" style="display: none;" onclick="isUniqueButtonClick && isUniqueButtonClick()" class="button bar-button more-button">
         <span class="material-icons">call_split</span>
         <span>Is unique</span>
@@ -52,7 +55,7 @@
     </nav>
 
     <!-- Hamburger menu -->
-    <div id="hamburger-menu" class="hamburger-menu">
+    <div id="hamburger-menu" class="hamburger-menu" style="display:none; opacity:0;">
       <nav id="nav-menu" class="nav-menu">
         <div class="nav-head">
           <div class="nav-head-title">Sudoku</div>
@@ -69,16 +72,16 @@
       </nav>
     </div>
 
-    <!-- floating new game button -->
+    <!-- floating start/new game button -->
     <div class="floating">
       <button onclick="showDialogClick('dialog');" class="button floating-btn vertical-adjust">
         <span class="material-icons">add</span>
       </button>
     </div>
 
-    <!-- new game dialog -->
-    <div id="dialog" class="dialog">
-      <div id="dialog-box" class="dialog-content" tabindex="-1">
+    <!-- selecting difficulty / starting game dialog -->
+    <div id="dialog" class="dialog" style="display:none; visibility:hidden;">
+      <div id="dialog-box" class="dialog-content">
         <div class="dialog-header">New game</div>
         <div class="dialog-body">
           <p>Select game difficulty to get started.</p>
@@ -120,33 +123,34 @@
 
     <!-- main content -->
     <div class="body" id="sudoku">
+      <!-- game board -->
       <div class="card game">
-        <table id="puzzle-grid" aria-label="Sudoku grid">
+        <table id="puzzle-grid">
           <!-- 9 rows, 9 cells each -->
-          <!-- Each input ises onchange to call global checkInput() -->
-          <!-- Row 1 -->
+          <!-- Each input is onchange for backward compatibility -->
+          <!-- Row 0 -->
           <tr>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
           </tr>
-          <!-- Rows 2...9 repeated -->
+          <!-- Rows 1...8 repeated -->
           <tr>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
-            <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
+            <td><input type="text" maxlength="1" onchange="checkInput(this)" /></td>
           </tr>
           <tr>
             <td><input type="text" maxlength="1" onchange="checkInput(this)" disabled /></td>
@@ -321,8 +325,5 @@
         </button>
       </div>
     </div>
-
-    <!-- JS -->
-    <script src="script.js"></script>
   </body>
 </html>
