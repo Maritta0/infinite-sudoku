@@ -298,10 +298,7 @@ function solveSudoku(changeUI) {
    return 0;
 }
 
-/* --------------------------
-   UI helpers (menus/dialogs)
-   -------------------------- */
-
+/* UI helpers */
 function hideMoreOptionMenu() {
    var moreOptionList = document.getElementById("more-option-list");
    if (!moreOptionList) return;
@@ -310,10 +307,11 @@ function hideMoreOptionMenu() {
       moreOptionList.style.minWidth = "40px";
       moreOptionList.style.maxHeight = "10px";
       moreOptionList.style.opacity = "0";
-      setTimeout(function() {moreOptionList.style.visibility = "hidden"; }, 175);
+      setTimeout(function(){ moreOptionList.style.visibility = "hidden"; }, 175);
    }
 }
 
+/* HEREE */
 function showDialogClick(dialogId) {
    hideHamburgerClick();
    var dialog = document.getElementById(dialogId);
