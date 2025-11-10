@@ -577,18 +577,14 @@ window.onload = function() {
    }
 };
 
-/* HEREE click outside to hide dialogs/menus */
+/* click outside to hide dialogs/menus */
 window.onclick = function (event) {
    var d1 = document.getElementById("dialog");
    var d2 = document.getElementById("about-dialog");
    var m1 = document.getElementById("more-option-list");
-   if (event.target === d1) {
-      hideDialogButtonClick("dialog");
-   } else if (event.target === d2) {
-      hideDialogButtonClick("about-dialog");
-   } else if (m1 && m1.style.visibility === "visible") {
-      hideMoreOptionMenu();
-   }
+   if (event.target === d1) hideDialogButtonClick("dialog");
+   else if (event.target === d2) hideDialogButtonClick("about-dialog");
+   else if (m1 && m1.style.visibility === "visible") hideMoreOptionMenu();
 };
 
 /* Hamburger toggle */
