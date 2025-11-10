@@ -189,7 +189,7 @@ function ViewPuzzle(grid) {
          addClassToCell(input);
          var ch = grid[i][j];
          if (ch === "0") { input.disabled = false; input.value = ""; } 
-         else { input.disabled = true; inpute.value = ch; }
+         else { input.disabled = true; input.value = ch; }
       }
    }
    // recompute remaining numbers 
@@ -314,7 +314,7 @@ function hideMoreOptionMenu() {
 function showDialogClick(dialogId) {
    hideHamburgerClick();
    var dialog = document.getElementById(dialogId);
-   var dialogBox = document.getlElementById(dialogId + "-box");
+   var dialogBox = document.getElementById(dialogId + "-box");
    if (!dialog || !dialogBox) return;
    dialogBox.focus();
    dialog.style.opacity = 0;
