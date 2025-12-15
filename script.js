@@ -123,26 +123,34 @@ function generatePossibleNumber(rows, columns, blocks) {
 function solveGrid(possibleNumber, rows, startFromZero) {
    var solution = [];
    var result = nextStep(0, possibleNumber, rows, solution, startFromZero);
-   if (result === 1) return solution;
-   return undefined;
+   if (result == 1) {
+      return solution;
+   }
 }
 
 function nextStep(level, possibleNumber, rows, solution, startFromZero) {
    var x = possibleNumber.slice(level * 9, (level + 1) * 9);
    var y = generatePossibleRows(x);
-   if (y.length === 0) return 0;
+   if (y.length == 0) return 0;
    var start = startFromZero ? 0 : y.length - 1;
    var stop = startFromZero ? y.length - 1 : 0;
    var step = startFromZero ? 1 : -1;
-   for (var num = start; startFromZero ? num <= stop : num >= stop; num += step) {
-      for (var i = level + 1; i < 9; i++) solution[i] = rows[i];
+   var condition = startFromZero ? start <= stop : start >= stop;
+   for (var num = start; condition; num += step) {
+      var condition = startFromZero ? num + step <= stop : num + step >= stop;
+      for (var i = level + 1; i < 9; i++) {
+         solution[i] = rows[i];
+      }
       solution[level] = y[num];
       if (level < 8) {
          var cols = getColumns(solution);
-         var blks = getBlocks(solution);
-         var poss = generatePossibleNumber(solution, cols, blks);
-         if (nextStep(level + 1, poss, rows, solution, startFromZero) === 1) return 1;
-      } else {
+         var blocks = getBlocks(solution);
+         var poss = generatePossibleNumber(solution, cols, blocks);
+         if (nextStep(level + 1, poss, rows, solution, startFromZero) == 1) {
+            return 1;
+         }
+      }
+      if (level == 8) {
          return 1;
       }
    }
