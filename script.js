@@ -177,29 +177,34 @@ function generatePossibleRows(possibleNumber) {
 
 /* Make puzzle by removing symmetric cells */
 function makeItPuzzle(grid, difficulty) {
-   if (!(difficulty < 5 && difficulty > -1)) difficulty = 13;
-   var remainedValues = 81;
-   var puzzleLocal = grid.slice(0);
-   function getSymmetry(x, y){ return [8-x, 8-y]; }
-   function clearValue(gridArr, x, y) {
-       var sym = getSymmetry(x, y);
-       if (gridArr[y][x] !== "0") {
-          gridArr[y] = replaceCharAt(gridArr[y], x, "0"); remainedValues--;
-          if (!(x === sym[0] && y === sym[1])) {
-             if (gridArr[sym[1]][sym[0]] !== "0") {
-                gridArr[sym[1]] = replaceCharAt(gridArr[sym[1]], sym[0], "0"); remainedValues--;
-             }
-          }
-       }
+   if (!(difficulty < 5 && difficulty > -1)) {
+      difficulty = 13;
    }
-   var safety = 0;
-   while (remainedValues > difficulty * 5 + 20 && safety < 10000) {
+   var remainedValues = 81;
+   var puzzle = grid.slice(0);
+   function clearValue(grid, x, y, remainedValues) { 
+      function getSymmetry(x, y) {
+         var symX = 8 - x;
+         var symY = 8 - y;
+         return  [symX, symY];
+      }
+      var sym = getSymmetry(x, y);
+      if (grid[y][x] != 0) {
+         grid[y] = replaceCharAt(grid[y], x, "0");
+         remainedValues--;
+         if (x != sym[0] && y != sym[1]) {
+            grid[grid[1]] = replaceCharAt(grid[sym[1]], sym[0], "0");
+            remainedValues--;
+         }
+      }
+      return remainedValues;
+   }
+   while (remainedValues > difficulty * 5 + 20) {
       var x = Math.floor(Math.random() * 9);
       var y = Math.floor(Math.random() * 9);
-      clearValue(puzzleLocal, x, y);
-      safety++;
+      remainedValues = clearValue(puzzle, x, y, remainedValues);
    }
-   return puzzleLocal;
+   return puzzle;
 }
 
 
