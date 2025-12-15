@@ -159,13 +159,16 @@ function nextStep(level, possibleNumber, rows, solution, startFromZero) {
 
 function generatePossibleRows(possibleNumber) {
    var result = [];
-   function step(level, curRow) {
-      if (level === 9) { result.push(curRow); return; }
-      var options = possibleNumber[level];
-      for (var k = 0; k < options.length; k++) {
-         var d = options[k];
-         if (curRow.includes(d)) continue;
-         step(level + 1, curRow + d);
+   function step(level, PossibleRow) {
+      if (level == 9) { 
+         result.push(PossibleRow);
+         return;
+      }
+      for (var i  in possibleNumber[level]) {
+         if (PossibleRow.includes(possibleNumber[level][i])) {
+            continue;
+         }
+         step(level + 1, PossibleRow + possibleNumber[level][i]);
       }
    }
    step(0, "");
