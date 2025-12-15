@@ -229,15 +229,16 @@ function ViewPuzzle(grid) {
 function readInput() {
    var result = [];
    for (var i = 0; i < 9; i++) {
-      var row = "";
+      result.push("");
       for (var j = 0; j < 9; j++) {
          var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
-         if (!input || input.value === "" || input.value.length > 1 || input.value === "0") {
-            if (input) input.value = "";
-            row += "0";
-         } else row += input.value;
+         if (input.value == "" || input.value.length > 1 || input.value == "0") {
+            input.value = "";
+            result[i] += "0";
+         } else {
+            result[i] += input.value;
+         }
       }
-      result.push(row);
    }
    return result;
 }
