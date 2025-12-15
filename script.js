@@ -17,40 +17,50 @@ var pauseTimer = false;
 var intervalId;
 var gameOn = false;
 
-/* ----------------------------
-   Helper / generator functions
-   ---------------------------- */
+function newGame(difficulty) {
+   var grid = getGrideInit();
+   var rows = grid;
+   var cols = getColumns(grid);
+   var blks = getBlocks(grid);
+   var psNum = generatePossibleNumber(rows, cols, blks);
+   solution = solveGrid(psNum, rows, true);
+   timer = 0;
+   for (var i in remaining) {
+      remaining[i] = 9;
+   }
+   puzzle = makeItPuzzle(solution, difficulty);
+   gameOn = difficulty < 5 && difficylty >= 0;
+   ViewPuzzle(puzzle);
+   if (gameOn) {
+      startTimer();
+   }
+}
 
 // create initial grid with one random position for numbers 1...9
 function getGridInit() {
   var rand = [];
-  for (var n = 1; n <= 9; n++) {
-    var tries = 0;
-    while (true) {
-      var row = Math.floor(Math.random() * 9);
-      var col = Math.floor(Math.random() * 9);
-      var ok = true;
-      for (var j = 0; j < rand.length; j++) {
-        if (rand[j][0] === n || (rand[j][1] === row && rand[j][2] === col)) {
-          ok = false;
-          break;
+  for (var i = 1; i <= 9; i++) {
+     var row = Math.floor(Math.random() * 9);
+     var col = Math.floor(Math.random() * 9);
+     var accept = true;
+     for (var j = 0; j < rand.length; j++) {
+        if ((rand[j][0] == i) | ((rand[j][1] == row) & (rand[j][2] == col))) {
+           accept = false;
+           i--;
+           break;
         }
       }
-      if (ok) {
-        rand.push([n, row, col]);
-        break;
+      if (accept) {
+        rand.push([i, row, col]);
       }
-      tries++;
-      if (tries > 100) { rand.push([n, row, col]); break; }
-    }
   }
   var result = [];
-  for (var r = 0; r < 9; r++) result.push("000000000");
+  for (var i = 0; i < 9; i++) {
+     var row = "000000000";
+     result.push(row);
+  }
   for (var i = 0; i < rand.length; i++) {
-    var n = String(rand[i][0]);
-    var rr = rand[i][1];
-    var cc = rand[i][2];
-    result[rr] = replaceCharAt(result[rr], cc, n);
+     result[rand[i][1]] = replaceCharAt(result[rand[i][1]], rand[i][2], rand[i][0]);
   }
   return result;
 }
@@ -71,8 +81,7 @@ function getBlocks(grid) {
   var result = ["", "", "", "", "", "", "", "", ""];
   for (var i = 0; i < 9; i++) {
     for (var j = 0; j < 9; j++) {
-       var idx = Math.floor(i/3)*3 + Math.floor(j/3);
-       result[idx] += grid[i][j];
+       result[Math.floor(i / 3) * 3 + Math.floor(j / 3)] += grid[i][j];
     }
   }
   return result;
