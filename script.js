@@ -210,24 +210,20 @@ function makeItPuzzle(grid, difficulty) {
 
 /* UI: render / read / helpers */ 
 function ViewPuzzle(grid) {
-   for (var i = 0; i < 9; i++) {
-      for (var j = 0; j < 9; j++) {
+   for (var i = 0; i < grid.length; i++) {
+      for (var j = 0; j < grid[i].length; j++) {
          var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
-         addClassToCell(input);
-         var ch = grid[i][j];
-         if (ch === "0") { input.disabled = false; input.value = ""; } 
-         else { input.disabled = true; input.value = ch; }
+         addClassToCell(tavle.rows[i].cells[j].getElementsByTagName("input")[0]);
+         if (grid[i][j] == "0") { 
+            input.disabled = false;
+            input.value = "";
+         } else { 
+            input.disabled = true;
+            input.value = grid[i][j];
+            remaining[grid[i][j] - 1]--;
+         }
       }
    }
-   // recompute remaining numbers 
-   remaining = [9, 9, 9, 9, 9, 9, 9, 9, 9];
-   for (var r = 0; r < 9; r++) {
-      for (var c = 0; c < 9; c++) {
-         var v = table.rows[r].cells[c].getElementsByTagName("input")[0].value;
-         if (v >= "1" && v <= "9") remaining[Number(v) - 1]--;
-      }
-   }
-   updateRemainingTable();
 }
 
 function readInput() {
